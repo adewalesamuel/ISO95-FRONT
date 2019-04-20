@@ -1,0 +1,35 @@
+{
+  "name": "iso95",
+  "version": "1.0.0",
+  "description": "Application de partage de photos profesionnelles en Afrique",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adewalesamuel/ISO95.git"
+  },
+  "keywords": [
+    "Photos",
+    "Afrique",
+    "Photographe",
+    "Photography",
+    "Picture",
+    "Africa",
+    "App"
+  ],
+  "author": "samueladewale",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/adewalesamuel/ISO95/issues"
+  },
+  "homepage": "https://github.com/adewalesamuel/ISO95#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.5.2",
+    "nodemailer": "^6.1.1",
+    "nodemon": "^1.18.11"
+  }
+}
