@@ -30,8 +30,12 @@ const hashPassword = password => {
  * @param{Object} payload the payload containing the id and password of the user
  * @return{String}
 */
-const getSessionToken = payload => {
-	return jwt.sign(payload, secretKey, {expiresIn: new Date().getTime() + 1000 * 60 * 60 * 24 * 30 * 12})
+const createSessionToken = payload => {
+	return jwt.sign({ 
+		id: payload.id, 
+		email: payload.password, 
+		type: 'session' }, 
+		secretKey, {expiresIn: new Date().getTime() + 1000 * 60 * 60 * 24 * 30 * 12})
 }
 
 /**
@@ -62,18 +66,34 @@ const getTokenPayload = token => {
 /**
  * Creates à password renewal token
  * 
- * @param{String} payload some data of the user
+ * @param{Object} payload some data of the user
  * @return{Object}
 */
-const getPasswordRenewalToken = payload => {
-	return jwt.sign(payload, secretKey, {expiresIn: new Date().getTime() + 1000 * 60 * 60 })
+const createPasswordRenewalToken = payload => {
+	return jwt.sign({ 
+		id: payload.id, 
+		email: payload.email, 
+		type: 'password' }, 
+		secretKey, {expiresIn: new Date().getTime() + 1000 * 60 * 60 })
 }
+
+/**
+ * Gets the authorization header info
+ * 
+ * @param{Request} req the request data
+ * @return{Object}
+*/
+const getAuthorizationBearerToken = req => {
+	return req.get('Authorization').split(' ')[1]
+}
+
 
 module.exports = {
 	hashPassword,
-	getSessionToken,
+	createSessionToken,
 	isValidToken,
 	getTokenPayload,
-	getPasswordRenewalToken
+	createPasswordRenewalToken,
+	getAuthorizationBearerToken
 }  
 
