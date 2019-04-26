@@ -9,7 +9,7 @@ const Notification = mongoose.model('Notification', new Schema({
 		sender: {
 			_id: mongoose.Schema.Types.ObjectId,
 			username: String,
-			profilePic: String
+			profileUrl: String
 		},
 		user: {
 			_id: mongoose.Schema.Types.ObjectId,

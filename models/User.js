@@ -11,7 +11,7 @@ const User = mongoose.model('User', new Schema({
 		profileUrl: String,
 		relations: {
 			followers: Number,
-			following: Number,
+			followings: Number,
 		},
 		description: String,
 		email: String,

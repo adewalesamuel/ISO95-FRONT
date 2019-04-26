@@ -7,6 +7,8 @@ const Schema = mongoose.Schema
 const Message = mongoose.model('Message', new Schema({
 	sender: {
 		_id: mongoose.Schema.Types.ObjectId,
+		username: String,
+		profileUrl: String
 	},
 	receiver: {
 		_id: mongoose.Schema.Types.ObjectId,
