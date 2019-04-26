@@ -7,7 +7,7 @@ const relationFollowing = require('./../middlewares/relationFollowing')
 
 router.post('/follow', relationFollow)
 router.delete('/unfollow', relationUnfollow)
-router.get('/:username/followers', relationFollower)
-router.get('/:username/followings', relationFollowing)
+router.get('/:username/followers/:page', relationFollower)
+router.get('/:username/followings/:page', relationFollowing)
 
 module.exports = router
