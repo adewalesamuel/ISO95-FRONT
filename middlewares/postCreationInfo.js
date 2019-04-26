@@ -1,31 +1,30 @@
 /**
- * User profile update middleware
+ * Post creation info middleware
  * Author: samueladewale
 */
 
-const { updateUser } = require('./../services/user')
+const { updatePostInfo } = require('./../services/post')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const Log = require('./../modules/logging')
 
 /**
- * Updates the connected users info
+ * Add informations to an existing post a post
  *
  * @param{Request} req the request object
  * @param{Response} res the response object
 */
-async function userProfileUpdate(req, res) {
+async function postCreationPhoto(req, res) {
 	const log = new Log(req)	
 
-	// Checking if all the required fields in the body are correct
-	if (!req.body.email || !req.body.fullname ||
-			!req.body.website || !req.body.place || !req.body.tel ||
-			!req.body.description) {
+	// Checking if all the required body fields are correct
+	if (!req.body.publicId || !req.body.photoAlt || !req.body.caption 
+		|| !req.body.place || !req.body.camera || !req.body.tags) {
 		res.sendStatus(400)
 		log.error("The fields are not correct")
 		return
 	}
-	
-	const data = req.body
+
+	let data = req.body // portrait or else
 
 	// Verifying if the authorazation token is valid
 	try {
@@ -38,7 +37,7 @@ async function userProfileUpdate(req, res) {
 			return
 		}
 
-		data.id = tokenPayload.id // The id of the logged in user
+		data.id = tokenPayload.id // the id of the logged in user
 
 	}catch(err) {
 		res.sendStatus(500)
@@ -46,23 +45,21 @@ async function userProfileUpdate(req, res) {
 		return
 	}
 
-	// Updating the users infos
+	// Updating the post info
 	try {
-		const updatedUser = await updateUser(data)
-		if ( updatedUser.n === 0 ) {
+		const updatedPost = await updatePostInfo(data) 
+		if ( updatedPost.n === 0 ) {
 			res.sendStatus(404)
-			log.error("User not found")
+			log.error("User post not found")
 			return
 		}
-
 		res.sendStatus(200)
-		log.info("User updated")
-	}catch(err){
-		res.sendStatus(500)
+		log.info("Post info created")
+	}catch(err) {
 		log.error(err)
 		return
 	}
 
 }
 
-module.exports = userProfileUpdate
+module.exports = postCreationPhoto

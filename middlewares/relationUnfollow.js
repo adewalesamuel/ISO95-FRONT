@@ -44,7 +44,7 @@ async function relationFollow(req, res) {
 			return
 		}
 
-		user.id = tokenPayload.id
+		user.id = tokenPayload.id // the id of the logged in user
 
 	}catch(err) {
 		res.sendStatus(500)
@@ -57,7 +57,7 @@ async function relationFollow(req, res) {
 		const hasRelation = await getRelation(user, userToUnfollow)
 		if (!hasRelation){
 			res.sendStatus(403)
-			log.error('There is not relation beetween users')
+			log.error('There is no relation beetween users')
 			return
 		}
 

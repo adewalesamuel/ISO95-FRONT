@@ -15,7 +15,7 @@ const Log = require('./../modules/logging')
 async function userProfile (req, res) {
 	const log = new Log(req)	
 
-	// Checking if all the required fields in the body are correct
+	// Checking if all the required params are correct
 	if (!req.params.username || req.params.username.trim() === '') {
 		res.sendStatus(400)
 		log.error("The fields are not correct")

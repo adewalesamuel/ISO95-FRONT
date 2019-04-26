@@ -1,10 +1,10 @@
 /**
- * userPasswordTokenGeneration middleware
+ * User password token generation middleware
  * Author: samueladewale
 */
-const { getPasswordRenewalToken } = require('./../modules/authentication')
+const { createPasswordRenewalToken } = require('./../modules/authentication')
 const { getUserWithEmail } = require('./../services/user')
-const { sendMail } = require('./../modules/common')
+const { sendForgotPasswordMail } = require('./../modules/mailing')
 const Log = require('./../modules/logging')
 
 /**
@@ -24,9 +24,9 @@ const userPasswordTokenGeneration = async (req, res) => {
 	}
 
 	let data = req.body
-	let responseData
 	let user
 
+	// Getting the user with the email if it exists
 	try {
 		user = await getUserWithEmail(data)
 		if (!user) {
@@ -40,17 +40,18 @@ const userPasswordTokenGeneration = async (req, res) => {
 		return
 	}
 
+	// Creating the token to renew the password
 	try {
-		const passwordRenewalToken = getPasswordRenewalToken({id: user._id, email: user.email})
-		sendMail(user, passwordRenewalToken)
-		res.json({token: passwordRenewalToken})
+		const passwordRenewalToken = createPasswordRenewalToken({id: user._id, email: user.email})
+		sendForgotPasswordMail(user, passwordRenewalToken)
+		res.sendStatus(200)
+		log.info("Mail sent to the user")
 
 	}catch(err){
 		res.sendStatus(500)
 		log.error(err)
 		return
 	}
-
 
 }
 

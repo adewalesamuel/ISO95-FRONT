@@ -2,7 +2,7 @@
  * User Registration middleware
  * Author: samueladewale
 */
-const { hashPassword, getSessionToken } = require('./../modules/authentication')
+const { hashPassword, getSessionToken, createSessionToken } = require('./../modules/authentication')
 const { createUser, getUser } = require('./../services/user')
 const Log = require('./../modules/logging')
 
@@ -14,8 +14,8 @@ const Log = require('./../modules/logging')
 */
 async function userRegistration (req, res) {
 	const log = new Log(req)	
-	const requiredFields = ['username', 'email', 'password']
 
+	// Checking if all the required fields in the body are correct
 	if (!req.body.username || !req.body.email || !req.body.password ||
 			req.body.username === '' || req.body.email === '' || req.body.password === '') {
 		res.sendStatus(400)
@@ -23,14 +23,12 @@ async function userRegistration (req, res) {
 		return
 	}
 
-	let data = req.body
-	let responseData
+	let data = req.body // the id of the logged in user
 	let user
 
 	// Checking if the user already exists
 	try {
 		const userExists = await getUser(data)
-
 		if (userExists) {
 			res.sendStatus(409)
 			log.error('User already exists')
@@ -42,7 +40,7 @@ async function userRegistration (req, res) {
 
 	// Creating a password
 	try {
-		const hashedPassword = await hashPassword(req.body.password)
+		const hashedPassword = await hashPassword(data.password)
 		data.password = hashedPassword
 	}catch(err){
 		log.error(err)
@@ -60,8 +58,8 @@ async function userRegistration (req, res) {
 
 	// Creating the session token and the data to send back
 	try {
-		const sessionToken = getSessionToken({id: user._id, password: user.password})
-		responseData = {
+		const sessionToken = createSessionToken({id: user._id, password: user.password})
+		res.json({
 			id: user._id,
 			sessionToken: sessionToken,
 			fullname: user.fullname,
@@ -77,10 +75,8 @@ async function userRegistration (req, res) {
 			posts: user.posts,
 			favorites: user.favorites,
 			new: user.new
-		}
-
+		})
 		log.info('User created')
-		res.json(responseData)
 	}catch(err) {
 		log.error(err)
 		res.sendStatus(500)

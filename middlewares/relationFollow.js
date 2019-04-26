@@ -43,7 +43,7 @@ async function relationFollow(req, res) {
 			return
 		}
 
-		user.id = tokenPayload.id
+		user.id = tokenPayload.id // the id of the logged in user
 
 	}catch(err) {
 		res.sendStatus(500)
@@ -89,7 +89,7 @@ async function relationFollow(req, res) {
 
 	// Increasing relations count
 	try {
-		const relationsCount = await Promise.all([
+		await Promise.all([
 			increaseUserFollowers(userToFollow), 
 			increaseUserFollowings(user)
 			])

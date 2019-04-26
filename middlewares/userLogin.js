@@ -2,7 +2,7 @@
  * User login middleware
  * Author: samueladewale
 */
-const { hashPassword, getSessionToken } = require('./../modules/authentication')
+const { hashPassword, getSessionToken, createSessionToken } = require('./../modules/authentication')
 const { getUserWithPassword } = require('./../services/user')
 const Log = require('./../modules/logging')
 
@@ -24,7 +24,6 @@ const userLogin = async (req, res) => {
 	}
 
 	let data = req.body
-	let responseData
 	let user
 
 	// Hashing the password
@@ -40,7 +39,7 @@ const userLogin = async (req, res) => {
 	// Checking if the user exists
 	try {
 		user = await getUserWithPassword(data)
-
+		
 		if (!user) {
 			res.sendStatus(404)
 			log.error('The user was not found ')
@@ -54,8 +53,8 @@ const userLogin = async (req, res) => {
 
 	// Creating the session token and the data to send back
 	try {
-		let sessionToken = getSessionToken({id: user._id, password: user.password})
-		responseData = {
+		let sessionToken = createSessionToken({id: user._id, password: user.password})
+		res.json({
 			id: user._id,
 			sessionToken: sessionToken,
 			fullname: user.fullname,
@@ -71,9 +70,7 @@ const userLogin = async (req, res) => {
 			posts: user.posts,
 			favorites: user.favorites,
 			new: user.new
-		}
-
-		res.json(responseData)
+		})
 		log.info('Token sent')
 	}catch(err) {
 		log.error(err)

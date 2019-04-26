@@ -55,8 +55,8 @@ const userPasswordRenew = async (req, res) => {
 
 	// Updates the old password
 	try {
-		let hasUpdatedPassword = await updateUserPassword(data)
-		if ( !hasUpdatedPassword ) {
+		let updatedPassword = await updateUserPassword(data)
+		if ( updatedPassword.n === 0 ) {
 			res.sendStatus(404)
 			log.error("The user was not found")
 			return
