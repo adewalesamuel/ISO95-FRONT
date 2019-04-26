@@ -66,10 +66,12 @@ const getRelation = (userData, followedUserData) => {
  * @param{Object} data the data of the user
  * @return{Promise}
 */
-const getAllFollowers = (data) => {
+const getAllFollowers = (data, skip=0, limit=10) => {
 	return Relation.find({
 		'following.username': data.username
 	}, { follower: 1 } )
+	.skip( skip > 0 ? ( (skip - 1) * limit) : 0 )
+	.limit(limit)
 }
 
 /**
@@ -78,10 +80,24 @@ const getAllFollowers = (data) => {
  * @param{Object} data the data of the users
  * @return{Promise}
 */
-const getAllFollowings = (data) => {
+const getAllFollowings = (data, skip=0, limit=10) => {
 	return Relation.find({
 		'follower.username': data.username
 	}, { following: 1 } )
+	.skip( skip > 0 ? ( (skip - 1) * limit) : 0 )
+	.limit(limit)
+}
+
+/**
+ * Gets a users followings by its id
+ *
+ * @param{Object} data the data of the users
+ * @return{Promise}
+*/
+const getAllFollowingsById = (data) => {
+	return Relation.find({
+		'follower._id': data.id
+	}, { 'following._id': 1 } )
 }
 
 module.exports = {
@@ -89,5 +105,6 @@ module.exports = {
 	getRelation,
 	getAllFollowers,
 	getAllFollowings,
-	deleteRelation
+	deleteRelation,
+	getAllFollowingsById
 }

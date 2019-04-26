@@ -54,6 +54,26 @@ const getUser = (data) => {
 }
 
 /**
+ * Gets a number of popular users
+ *
+ * @param{Object} data some data of the users to get
+ * @return{Promise}
+*/
+const getPopularUsers = (skip=0, limit=8) => {
+	return User.find({
+		$or: [
+			{ 'relations.followers': { $gt: 0 } },
+			{ posts: { $gt: 0 } }
+		]
+	}, { username: 1, profileUrl: 1 })
+	.sort({ 
+		'relations.followers': -1, 
+		posts: -1 })
+	.skip( skip > 0 ? ( (skip - 1) * limit) : 0 )
+	.limit(limit)
+}
+
+/**
  * Gets a user by password
  *
  * @param{Object} data some data of the user to get
@@ -133,6 +153,19 @@ const updateUser = (data) => {
 		} })
 }
 
+/**
+ * Updates a users profile url
+ *
+ * @param{Object} data some data of the user to update
+ * @return{Promise}
+*/
+const updateUserProfileUrl = (data) => {
+	const profileUrl = `${clientHost}/uploads/profiles/${data.filename}`
+	return User.updateOne(
+		{ _id: data.id }, 
+		{ $set: {
+			profileUrl: profileUrl } })
+}
 
 /**
  * Increments the users followers count
@@ -182,6 +215,30 @@ const decreaseUserFollowings = (data) => {
 		{ $inc: {	'relations.followings': -1 } })
 }
 
+/**
+ * Increments the users post count
+ *
+ * @param{Object} data some data of the user to update
+ * @return{Promise}
+*/
+const increaseUserPosts = (data) => {
+	return User.updateOne(
+		{ _id: data.id }, 
+		{ $inc: {	'posts': 1 } })
+}
+
+/**
+ * Decrements the users post count
+ *
+ * @param{Object} data some data of the user to update
+ * @return{Promise}
+*/
+const decreaseUserPosts = (data) => {
+	return User.updateOne(
+		{ _id: data.id }, 
+		{ $inc: {	'posts': -1 } })
+}
+
 
 module.exports = {
 	createUser,
@@ -190,10 +247,14 @@ module.exports = {
 	getUserWithEmail,
 	getUserWithId,
 	updateUserPassword,
+	updateUserProfileUrl,
 	getUserWithUsername,
 	updateUser,
 	increaseUserFollowers,
 	decreaseUserFollowers,
 	increaseUserFollowings,
-	decreaseUserFollowings
+	decreaseUserFollowings,
+	getPopularUsers,
+	increaseUserPosts,
+	decreaseUserPosts
 }
