@@ -2,19 +2,17 @@
  * Mailing module
  * Author: samueladewale
 */
+const { smtp } = require('./../environement')
 const nodemailer = require("nodemailer")
 
 const sendForgotPasswordMail = async (user, token) => {
 
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    host: "smtp.mail.yahoo.com",
-    port: 465,
+    host: smtp.host,
+    port: smtp.port,
     secure: true, // true for 465, false for other ports
-    auth: {
-      user: 'samroberval@yahoo.fr',
-      pass: 'Scipion777' 
-    }
+    auth: smtp.auth
   });
 
   // send mail with defined transport object
