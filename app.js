@@ -9,10 +9,16 @@ const PORT = process.env.PORT || 3000
 
 const userRoutes = require('./routes/user')
 const relationRoutes = require('./routes/relation')
+const postRoutes = require('./routes/post')
+const postLikeRoutes = require('./routes/postLike')
+const commentRoutes = require('./routes/comment')
 
 app.use(bodyParser.json())
 
 app.use('/user', userRoutes)
 app.use('/relation', relationRoutes)
+app.use('/post', postRoutes)
+app.use('/post-like', postLikeRoutes)
+app.use('/comment', commentRoutes)
 
 app.listen(3000)
