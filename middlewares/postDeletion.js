@@ -3,8 +3,11 @@
  * Author: samueladewale
 */
 
-const { getUserWithId, decreaseUserPosts } = require('./../services/user')
+const { decreaseUserPosts } = require('./../services/user')
 const { findAndDeleteUserPost, getUserPost } = require('./../services/post')
+const { removeLikedPosts } = require('./../services/likedPost')
+const { removeFavoritePosts } = require('./../services/favoritePost')
+const { removePostViews } = require('./../services/postView')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const { deletePostPicture, getFileNameFromUrl } = require('./../modules/file')
 const Log = require('./../modules/logging')
@@ -19,7 +22,7 @@ async function postCreationPhoto(req, res) {
 	const log = new Log(req)	
 
 	// Checking if all the required params are correct
-	if (!req.params.publicId || req.params.publicId.trim() === '') {
+	if (!req.body.postId || req.body.postId.trim() === '') {
 		res.sendStatus(400)
 		log.error("The fields are not correct")
 		return
@@ -27,7 +30,7 @@ async function postCreationPhoto(req, res) {
 	
 	let post
 	let data = {}
-	const postPublicId = req.params.publicId // id of the post on the client side url
+	data.postId = req.body.postId // id of the post on the client side url
 	const postPhotoPath = 'uploads/photos'
 
 	// Verifying if the authorazation token is valid
@@ -51,18 +54,27 @@ async function postCreationPhoto(req, res) {
 
 	// Deleting the users post
 	try {
-		post = await findAndDeleteUserPost(data, postPublicId) 
+		post = await findAndDeleteUserPost(data)
 
+		// If the user post does not exists
 		if ( !post ) {
 			res.sendStatus(404)
 			log.error('User post not found')
 			return
 		}
 
+		// Removing all occurenses of the posts
+		await Promise.all([
+				removeFavoritePosts(data),
+				removeLikedPosts(data),
+				removePostViews(data)
+			])
+
+		await decreaseUserPosts(data) // Decreasing user post count
+
 		res.sendStatus(200)
 		log.info('User post deleted')
 
-		decreaseUserPosts(data)
 		log.info("User post decreased")  
 	}catch(err){
 		res.sendStatus(500)
@@ -98,7 +110,6 @@ async function postCreationPhoto(req, res) {
 		log.error(err)
 		return
 	}
-
 
 }
 

@@ -24,7 +24,7 @@ async function userPopular (req, res) {
 
 	const page = req.params.page
 
-	// Getting the users
+	// Getting popular users
 	try {
 		const users = await getPopularUsers(page, 8)
 
@@ -34,7 +34,7 @@ async function userPopular (req, res) {
 			return
 		}
 
-		res.json({...users})
+		res.json([...users])
 		log.info("Users found")
 	}catch(err){
 		res.sendStatus(500)

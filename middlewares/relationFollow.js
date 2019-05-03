@@ -51,8 +51,9 @@ async function relationFollow(req, res) {
 		return
 	}
 
-	// Verifying if the user is already a follower
+	// Checking if the user is already a follower
 	try {
+		// Getting the relation beetween the users
 		const hasRelation = await getRelation(user, userToFollow)
 		if (hasRelation){
 			res.sendStatus(403)
@@ -68,6 +69,7 @@ async function relationFollow(req, res) {
 
 	// Creating the relation
 	try {
+		// Getting the users
 		const users = await Promise.all([
 			getUserWithId(user), 
 			getUserWithId(userToFollow)
@@ -77,6 +79,8 @@ async function relationFollow(req, res) {
 			log.error('User not found')
 			return
 		}
+
+		// Registering the relation
 		const relation = await createRelation(users[0], users[1])
 		res.sendStatus(200)
 		log.info("Relation created")

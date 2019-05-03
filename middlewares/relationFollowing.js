@@ -2,7 +2,8 @@
  * Relation following middleware
  * Author: samueladewale
 */
-const { getAllFollowings } = require('./../services/relation')
+const { getAllFollowings, getAllRelations } = require('./../services/relation')
+const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const Log = require('./../modules/logging')
 
 /**
@@ -25,10 +26,56 @@ async function relationFollowing(req, res) {
 	const data = req.params
 	const page = req.params.page
 
-	// Getting the users followings
+	// Verifying if the authorazation token is valid
 	try {
+		const sessionToken = getAuthorizationBearerToken(req)
+		const tokenPayload = getTokenPayload(sessionToken)
+
+		if ( !sessionToken || !isValidToken(sessionToken) || tokenPayload.type !== 'session') {
+			res.sendStatus(401)
+			log.error('Token is not valid')
+			return
+		}
+
+		data.id = tokenPayload.id // the id of the logged in user
+
+	}catch(err) {
+		res.sendStatus(500)
+		log.error(err)
+		return
+	}
+
+	// Getting a user followings
+	try {
+		let userList = []
+
+		// Gettings the user followings
 		const followings = await getAllFollowings(data, page)
-		res.json(followings)
+		let followingsIds = followings.map( item => item.following._id )
+		log.info("Got followings")
+
+		// Getting the loggedin user followings ids from the user followings ids
+		const relations = await getAllRelations(data, followingsIds)
+		let userFollowingsIds = relations.map( item => item.following._id )
+		log.info('Got relations')
+
+		// Checking if the user is following the followings
+		followings.forEach( (following, index) => {
+			let isFollowing = false
+			if ( userFollowingsIds.filter( userFollowingId => userFollowingId.toString() === following.following._id.toString() ).length > 0 ) {
+				isFollowing = true
+			}
+			userList.push({
+				following: {
+           _id: following.following._id,
+           username: following.following.username,
+           profileUrl: following.following.profileUrl,
+           isFollowedByUser: isFollowing
+        }
+			})
+		} )
+
+		res.json(userList)
 		log.info('Got all followings')
 
 	}catch(err) {

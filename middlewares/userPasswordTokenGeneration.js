@@ -43,6 +43,7 @@ const userPasswordTokenGeneration = async (req, res) => {
 	// Creating the token to renew the password
 	try {
 		const passwordRenewalToken = createPasswordRenewalToken({id: user._id, email: user.email})
+		// Sending an email to the user with the token
 		sendForgotPasswordMail(user, passwordRenewalToken)
 		res.sendStatus(200)
 		log.info("Mail sent to the user")

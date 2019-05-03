@@ -32,7 +32,7 @@ async function postCreationPhoto(req, res) {
 		return
 	}
 
-	let mode = req.params.mode // portrait or else
+	let mode = req.params.mode // portrait or landscape
 	let data = {}
 	let user
 	const postPhotoPath = 'uploads/photos'
@@ -56,7 +56,7 @@ async function postCreationPhoto(req, res) {
 		return
 	}
 
-	// Getting the user
+	// Getting the logged in user
 	try {
 		user = await getUserWithId(data)
 		data.username = user.username
@@ -74,12 +74,13 @@ async function postCreationPhoto(req, res) {
 	//Generating a random id for the post
 	data.publicId = generateRandomId()
 
-	// Uploading the post photo
+	// Uploading the post pictures
 	try {
 		const uploadedImage = await uploadImage(req, postPhotoPath)
 		res.json({ publicId: data.publicId})
 		log.info("Uploaded Image" + uploadedImage)
 
+		// Setting the picture thumnail height according to de mode(portrait/lanscape) 
 		let descktopThumbnailHeight
 		let mobileThumbnailHeight
 		if (mode === 'landscape') {
@@ -90,6 +91,7 @@ async function postCreationPhoto(req, res) {
 			mobileThumbnailHeight = 447
 		}
 
+		// Resizing the post picture in differents sizes
 		const resizedPhoto = await Promise.all([
 			resizeImage(uploadedImage,`${postPhotoPath}/1900-${data.filename}`, 1900),//desktop high
 			resizeImage(uploadedImage, `${postPhotoPath}/900-${data.filename}`, 900),// desktop medium
@@ -99,6 +101,7 @@ async function postCreationPhoto(req, res) {
 			])
 		log.info("Resized image" + `${postPhotoPath}/${data.filename}`)
 		
+		// Deleting the original image
 		deleteImage(uploadedImage)
 		log.info("Image deleted")
 	}catch(err){
@@ -154,8 +157,9 @@ async function postCreationPhoto(req, res) {
 			}
 		}
 
+		// Registering the post with the picture
 		const postCreated = await createPostWithPhoto(data, photo) 
-		const postIncreased = await increaseUserPosts(data)
+		const postIncreased = await increaseUserPosts(data) // Inscreasing user post count
 		log.info("Photo created")
 	}catch(err) {
 		log.error(err)

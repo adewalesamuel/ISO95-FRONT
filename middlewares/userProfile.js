@@ -4,6 +4,8 @@
 */
 
 const { getUserWithUsername } = require('./../services/user')
+const { getUserFollowing } = require('./../services/relation')
+const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const Log = require('./../modules/logging')
 
 /**
@@ -24,8 +26,27 @@ async function userProfile (req, res) {
 
 	let data = req.params
 
+	// Verifying if the authorization token is valid
+	try {
+		const sessionToken = getAuthorizationBearerToken(req)
+		const tokenPayload = getTokenPayload(sessionToken)
+
+		if ( !sessionToken || !isValidToken(sessionToken) || tokenPayload.type !== 'session') {
+			data.id = ''
+			log.error('Token is not valid')
+		}else {
+			data.id = tokenPayload.id // the id of the logged in user
+			console.log(data)
+		}
+
+	}catch(err) {
+		data.id = ''
+		log.info('No token')
+	}
+
 	// Getting the user with the username if it exists
 	try {
+		let following = false
 		const user = await getUserWithUsername(data)
 
 		if ( !user ) {
@@ -34,7 +55,14 @@ async function userProfile (req, res) {
 			return
 		}
 
+		if (data.id && data.id !== '' ){
+			const isFollowing = await getUserFollowing(data)
+			console.log(isFollowing)
+			if (isFollowing) following = true
+		}
+
 		res.json({
+			_id: user._id,
 			fullname: user.fullname,
 			username: user.username,
 			profileUrl: user.profileUrl,
@@ -47,7 +75,8 @@ async function userProfile (req, res) {
 			grades: user.grades,
 			posts: user.posts,
 			favorites: user.favorites,
-			new: user.new
+			new: user.new,
+			followedByUser: following
 		})
 
 		log.info("User found")

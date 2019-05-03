@@ -1,24 +1,23 @@
 /**
- * Post creation info middleware
+ * Post set photo alt middleware
  * Author: samueladewale
 */
-
-const { updatePostInfo } = require('./../services/post')
+const { updatePostAltByPublicId } = require('./../services/post')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const Log = require('./../modules/logging')
 
 /**
- * Add informations to an existing post
+ * Updates the post alt
  *
  * @param{Request} req the request object
  * @param{Response} res the response object
 */
-async function postCreationPhoto(req, res) {
+async function postSetPhotoAlt(req, res) {
 	const log = new Log(req)	
 
-	// Checking if all the required body fields are correct
-	if (!req.body.publicId || !req.body.caption ||
-		 !req.body.place || !req.body.camera || !req.body.tags) {
+	// Checking if all the required params are correct
+	if (!req.body.publicId || req.body.publicId.trim() === '' || 
+		!req.body.alt ) {
 		res.sendStatus(400)
 		log.error("The fields are not correct")
 		return
@@ -45,22 +44,22 @@ async function postCreationPhoto(req, res) {
 		return
 	}
 
-	// Updating the post info
+	// Updating the post photo alt
 	try {
-		// Checks if a document has been updated
-		const updatedPost = await updatePostInfo(data) 
+		console.log(data)
+		const updatedPost = await updatePostAltByPublicId(data)
 		if ( updatedPost.n === 0 ) {
 			res.sendStatus(404)
 			log.error("User post not found")
 			return
 		}
 		res.sendStatus(200)
-		log.info("Post info created")
-	}catch(err) {
+		log.info("Updated post alt deleted")
+	}catch(err){
+		res.sendStatus(500)
 		log.error(err)
 		return
 	}
-
 }
 
-module.exports = postCreationPhoto
+module.exports = postSetPhotoAlt

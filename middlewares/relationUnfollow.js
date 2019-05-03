@@ -3,7 +3,7 @@
  * Author: samueladewale
 */
 const { isValidToken, getAuthorizationBearerToken, getTokenPayload } = require('./../modules/authentication')
-const { getUserWithId, decreaseUserFollowers, decreaseUserFollowings } = require('./../services/user')
+const { decreaseUserFollowers, decreaseUserFollowings } = require('./../services/user')
 const { deleteRelation, getRelation } = require('./../services/relation')
 const Log = require('./../modules/logging')
 
@@ -79,7 +79,7 @@ async function relationFollow(req, res) {
 		return
 	}
 
-	// Increasing relations count
+	// Decreasing relations count
 	try {
 		const relationsCount = await Promise.all([
 			decreaseUserFollowers(userToUnfollow), 
