@@ -1,13 +1,13 @@
 /**
- * Liked post model
+ * Viewed post model
  * Author: samueladewale
 */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const LikedPost = mongoose.model('LikedPost', new Schema({
+const PostView = mongoose.model('PostView', new Schema({
 	user: {
 		_id: mongoose.Schema.Types.ObjectId,
-		username: String,
+		username: String, 
 		profileUrl: String
 	},
 	post: {
@@ -23,4 +23,4 @@ const LikedPost = mongoose.model('LikedPost', new Schema({
 	}
 }))
 
-module.exports = LikedPost
+module.exports = PostView

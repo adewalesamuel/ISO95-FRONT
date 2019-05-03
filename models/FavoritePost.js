@@ -4,11 +4,10 @@
 */
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
-const LikedPost = mongoose.model('LikedPost', new Schema({
+const FavoritePost = mongoose.model('FavoritePost', new Schema({
 	user: {
 		_id: mongoose.Schema.Types.ObjectId,
-		username: String,
-		profileUrl: String
+		username: String
 	},
 	post: {
 		_id: mongoose.Schema.Types.ObjectId,
@@ -23,4 +22,4 @@ const LikedPost = mongoose.model('LikedPost', new Schema({
 	}
 }))
 
-module.exports = LikedPost
+module.exports = FavoritePost

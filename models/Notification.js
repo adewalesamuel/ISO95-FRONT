@@ -14,8 +14,7 @@ const Notification = mongoose.model('Notification', new Schema({
 		user: {
 			_id: mongoose.Schema.Types.ObjectId,
 		},
-		thumbnail: String,
-		body: String,
+		thumbnailUrl: String,
 		time: Number,
 		url: String,
 		isViewed: Boolean
