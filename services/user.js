@@ -7,9 +7,9 @@ const mongoose = require('mongoose')
 const User = require('./../models/User')
 
 /**
- * Creates a user
+ * Registers a user
  *
- * @param{Object} data the data of the new user
+ * @param{Object} data the user fullname, username, password and email
  * @return{Promise}
 */
 const createUser = (data) => {
@@ -42,10 +42,10 @@ const createUser = (data) => {
 /**
  * Gets a user
  *
- * @param{Object} data some data of the user to get
+ * @param{Object} data the user username and password
  * @return{Promise}
 */
-const getUser = (data) => {
+const getUser = data => {
 	return User.findOne({
 		$or: [
 			{ username: data.username },
@@ -56,7 +56,8 @@ const getUser = (data) => {
 /**
  * Gets a number of popular users
  *
- * @param{Object} data some data of the users to get
+ * @params{Number} skip the users to skip
+ * @params{Number} limit the user limit
  * @return{Promise}
 */
 const getPopularUsers = (skip=0, limit=8) => {
@@ -76,7 +77,7 @@ const getPopularUsers = (skip=0, limit=8) => {
 /**
  * Gets a user by password
  *
- * @param{Object} data some data of the user to get
+ * @param{Object} data the user username and password
  * @return{Promise}
 */
 const getUserWithPassword = (data) => {
@@ -92,7 +93,7 @@ const getUserWithPassword = (data) => {
 /**
  * Gets a user by email
  *
- * @param{Object} data some data of the user to get
+ * @param{Object} data the user email
  * @return{Promise}
 */
 const getUserWithEmail = (data) => {
@@ -102,7 +103,7 @@ const getUserWithEmail = (data) => {
 /**
  * Gets a user by id
  *
- * @param{Object} data some data of the user to get
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const getUserWithId = (data) => {
@@ -112,7 +113,7 @@ const getUserWithId = (data) => {
 /**
  * Gets a user by a username
  *
- * @param{Object} data some data of the user to get
+ * @param{Object} data the user username
  * @return{Promise}
 */
 const getUserWithUsername = (data) => {
@@ -120,9 +121,9 @@ const getUserWithUsername = (data) => {
 }
 
 /**
- * Updates a users password
+ * Updates a user password
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user new password
  * @return{Promise}
 */
 const updateUserPassword = (data) => {
@@ -132,9 +133,9 @@ const updateUserPassword = (data) => {
 }
 
 /**
- * Updates a users informations
+ * Updates a user informations
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data some user info
  * @return{Promise}
 */
 const updateUser = (data) => {
@@ -154,13 +155,13 @@ const updateUser = (data) => {
 }
 
 /**
- * Updates a users profile url
+ * Updates a user profile url
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id and picture filename
  * @return{Promise}
 */
 const updateUserProfileUrl = (data) => {
-	const profileUrl = `${clientHost}/uploads/profiles/${data.filename}`
+	const profileUrl = `/uploads/profiles/${data.filename}`
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $set: {
@@ -168,9 +169,9 @@ const updateUserProfileUrl = (data) => {
 }
 
 /**
- * Increments the users followers count
+ * Increments the user followers count
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const increaseUserFollowers = (data) => {
@@ -180,9 +181,9 @@ const increaseUserFollowers = (data) => {
 }
 
 /**
- * Decrements the users followers count
+ * Decrements the user followers count
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const decreaseUserFollowers = (data) => {
@@ -192,9 +193,9 @@ const decreaseUserFollowers = (data) => {
 }
 
 /**
- * Increments the users followings count
+ * Increments the user followings count
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const increaseUserFollowings = (data) => {
@@ -204,9 +205,9 @@ const increaseUserFollowings = (data) => {
 }
 
 /**
- * Decrements the users followings count
+ * Decrements the user followings count
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const decreaseUserFollowings = (data) => {
@@ -216,9 +217,9 @@ const decreaseUserFollowings = (data) => {
 }
 
 /**
- * Increments the users post count
+ * Increments the user post count
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const increaseUserPosts = (data) => {
@@ -228,9 +229,9 @@ const increaseUserPosts = (data) => {
 }
 
 /**
- * Decrements the users post count
+ * Decrements the user post count
  *
- * @param{Object} data some data of the user to update
+ * @param{Object} data the user id
  * @return{Promise}
 */
 const decreaseUserPosts = (data) => {
