@@ -173,6 +173,22 @@ const getPost = (data) => {
 }
 
 /**
+ * Gets the most recent post
+ *
+ * @param{Object} data the post id
+ * @return{Promise}
+*/
+const getLatestPost = (data) => {
+	return 	Post.findOne({
+		time: { $gt: data.time }
+	},{
+	  user: 1,
+		'thumbnail.mobile.url': 1,
+	})
+	.sort({time: -1})
+}
+
+/**
  * Gets a user post by id
  *
  * @param{Object} data the post id
@@ -207,7 +223,7 @@ const getBestWeekPosts = (skip=0, limit=6) => {
 	 	caption: 0,
 	 	'photo.desktop.quality.high': 0
 	 })
-	.sort({ time: -1 , likes: -1, views: -1 })
+	.sort({likes: -1, views: -1 })
 	.skip( skip > 0 ? ( (skip - 1) * limit) : 0 )
 	.limit(limit)
 
@@ -464,5 +480,6 @@ module.exports = {
 	updatePostAltByPublicId,
 	increasePostComments,
 	decreasePostComments,
-	getUserPostById
+	getUserPostById,
+	getLatestPost
 }

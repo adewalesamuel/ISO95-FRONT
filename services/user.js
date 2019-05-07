@@ -12,7 +12,7 @@ const User = require('./../models/User')
  * @param{Object} data the user fullname, username, password and email
  * @return{Promise}
 */
-const createUser = (data) => {
+const createUser = data => {
 	const user = new User({
 		fullname: data.fullname ? data.fullname : '',
 		username: data.username,
@@ -80,7 +80,7 @@ const getPopularUsers = (skip=0, limit=8) => {
  * @param{Object} data the user username and password
  * @return{Promise}
 */
-const getUserWithPassword = (data) => {
+const getUserWithPassword = data => {
 	return User.findOne({
 		$or: [
 			{ username: data.username },
@@ -96,7 +96,7 @@ const getUserWithPassword = (data) => {
  * @param{Object} data the user email
  * @return{Promise}
 */
-const getUserWithEmail = (data) => {
+const getUserWithEmail = data => {
 	return User.findOne({ email: data.email })
 }
 
@@ -106,7 +106,7 @@ const getUserWithEmail = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const getUserWithId = (data) => {
+const getUserWithId = data => {
 	return User.findOne({ _id: data.id })
 }
 
@@ -116,7 +116,7 @@ const getUserWithId = (data) => {
  * @param{Object} data the user username
  * @return{Promise}
 */
-const getUserWithUsername = (data) => {
+const getUserWithUsername = data => {
 	return User.findOne({ username: data.username })
 }
 
@@ -126,7 +126,7 @@ const getUserWithUsername = (data) => {
  * @param{Object} data the user new password
  * @return{Promise}
 */
-const updateUserPassword = (data) => {
+const updateUserPassword = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $set: { password: data.newPassword } })
@@ -138,7 +138,7 @@ const updateUserPassword = (data) => {
  * @param{Object} data some user info
  * @return{Promise}
 */
-const updateUser = (data) => {
+const updateUser = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $set: {
@@ -160,12 +160,13 @@ const updateUser = (data) => {
  * @param{Object} data the user id and picture filename
  * @return{Promise}
 */
-const updateUserProfileUrl = (data) => {
+const updateUserProfileUrl = data => {
 	const profileUrl = `/uploads/profiles/${data.filename}`
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $set: {
-			profileUrl: profileUrl } })
+			profileUrl: profileUrl } 
+		})
 }
 
 /**
@@ -174,7 +175,7 @@ const updateUserProfileUrl = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const increaseUserFollowers = (data) => {
+const increaseUserFollowers = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $inc: {	'relations.followers': 1 } })
@@ -186,7 +187,7 @@ const increaseUserFollowers = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const decreaseUserFollowers = (data) => {
+const decreaseUserFollowers = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $inc: {	'relations.followers': -1 } })
@@ -198,7 +199,7 @@ const decreaseUserFollowers = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const increaseUserFollowings = (data) => {
+const increaseUserFollowings = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $inc: {	'relations.followings': 1 } })
@@ -210,7 +211,7 @@ const increaseUserFollowings = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const decreaseUserFollowings = (data) => {
+const decreaseUserFollowings = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $inc: {	'relations.followings': -1 } })
@@ -222,7 +223,7 @@ const decreaseUserFollowings = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const increaseUserPosts = (data) => {
+const increaseUserPosts = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $inc: {	'posts': 1 } })
@@ -234,10 +235,17 @@ const increaseUserPosts = (data) => {
  * @param{Object} data the user id
  * @return{Promise}
 */
-const decreaseUserPosts = (data) => {
+const decreaseUserPosts = data => {
 	return User.updateOne(
 		{ _id: data.id }, 
 		{ $inc: {	'posts': -1 } })
+}
+
+const updateUserNew = data => {
+	return User.updateOne({ 
+		_id: data.id 
+	},{ $set: { new: false } }
+	) 
 }
 
 
@@ -257,5 +265,6 @@ module.exports = {
 	decreaseUserFollowings,
 	getPopularUsers,
 	increaseUserPosts,
-	decreaseUserPosts
+	decreaseUserPosts,
+	updateUserNew
 }

@@ -61,7 +61,7 @@ const removeUserLikedComment = data => {
 }
 
 /**
- * Removes liked comment occurences
+ * Removes all occurenses of a liked comment
  * 
  * @param{Object} data the comment id
  * @return{Promise}
@@ -71,7 +71,6 @@ const removeLikedComment = data => {
 		'comment._id': data.commentId
 	})
 }
-
 
 module.exports = {
 	createLikedComment,

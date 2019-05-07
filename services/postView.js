@@ -19,6 +19,20 @@ const getUserPostViews = data => {
 }
 
 /**
+ * Gets a user post views
+ *
+ * @param{Object} data the user id
+ * @return{Promise}
+*/
+const getUserPostView = (user,post) => {
+	return PostView.findOne({
+		'user._id': user._id,
+		'post._id': post._id
+	})
+}
+
+
+/**
  * Registers a user post view
  *
  * @param{Object} user the user
@@ -78,5 +92,6 @@ module.exports = {
 	createPostView,
 	getUserPostViews,
 	updatePostViewProfileUrl,
-	removePostViews
+	removePostViews,
+	getUserPostView
 }

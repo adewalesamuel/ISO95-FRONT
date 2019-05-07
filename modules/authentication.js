@@ -60,7 +60,8 @@ const isValidToken = token => {
  * @return{Object}
 */
 const getTokenPayload = token => {
-	return jwt.verify(token, secretKey)
+	if (token) return jwt.verify(token, secretKey)
+	return null
 }
 
 /**
@@ -84,7 +85,8 @@ const createPasswordRenewalToken = payload => {
  * @return{Object}
 */
 const getAuthorizationBearerToken = req => {
-	return req.get('Authorization').split(' ')[1]
+	if ( req.get('Authorization') ) return req.get('Authorization').split(' ')[1]
+	return null
 }
 
 

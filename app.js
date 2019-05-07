@@ -12,6 +12,8 @@ const relationRoutes = require('./routes/relation')
 const postRoutes = require('./routes/post')
 const postLikeRoutes = require('./routes/postLike')
 const commentRoutes = require('./routes/comment')
+const notificationRoutes = require('./routes/notification')
+const messageRoutes = require('./routes/message')
 
 app.use(bodyParser.json())
 
@@ -20,5 +22,7 @@ app.use('/relation', relationRoutes)
 app.use('/post', postRoutes)
 app.use('/post-like', postLikeRoutes)
 app.use('/comment', commentRoutes)
+app.use('/notification', notificationRoutes)
+app.use('/message', messageRoutes)
 
 app.listen(3000)

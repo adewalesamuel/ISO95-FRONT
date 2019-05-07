@@ -38,7 +38,7 @@ const createRelation = (userData, userToFollowData) => {
  * @return{Promise}
 */
 const deleteRelation = (userData, userToUnfollowData) => {
-	return Relation.remove({
+	return Relation.deleteOne({
 		'follower._id': userData.id,
 		'following._id': userToUnfollowData.id
 	} )
