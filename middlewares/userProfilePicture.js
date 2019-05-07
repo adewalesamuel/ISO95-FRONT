@@ -9,6 +9,8 @@ const { updatePostProfileUrl } = require('./../services/post')
 const { updateCommentUserProfileUrl } = require('./../services/comment')
 const { updateFollowingProfileUrl, updateFollowerProfileUrl } = require('./../services/relation')
 const { updatePostViewProfileUrl } = require('./../services/postView')
+const { updateNotificationUserProfileUrl } = require('./../services/notification')
+const { updateMessageUserProfileUrl } = require('./../services/message')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const { uploadImage, resizeImage, deleteImage } = require('./../modules/file')
 const Log = require('./../modules/logging')
@@ -69,7 +71,6 @@ async function userProfilePicture(req, res) {
 	try {
 		const uploadedImage = await uploadImage(req, profilePicPath, data.filename)
 		log.info("Uploaded Image" + uploadedImage)
-		res.sendStatus(200)
 
 		// Resizing the profile picture to 200x200
 		const hasResizedImage = await resizeImage(uploadedImage, `${profilePicPath}/${data.filename}`, 200, 200)
@@ -83,16 +84,19 @@ async function userProfilePicture(req, res) {
 			updateFollowingProfileUrl(data),
 			updateLikedPostProfileUrl(data),
 			updatePostViewProfileUrl(data),
-			updateCommentUserProfileUrl(data)
+			updateCommentUserProfileUrl(data),
+			updateNotificationUserProfileUrl(data),
+			updateMessageUserProfileUrl(data)
 			])
 		log.info("Profile pic updated")
 		
 		deleteImage(uploadedImage)
+		res.sendStatus(200)
+
 		log.info("Image deleted")
 	}catch(err){
 		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

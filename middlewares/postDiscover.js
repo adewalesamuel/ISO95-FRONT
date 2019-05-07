@@ -12,7 +12,7 @@ const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('
 const Log = require('./../modules/logging')
 
 /**
- * Displays a list of recommended post acoording to the user activties
+ * Displays a list of recommended post according to the user activties
  *
  * @param{Request} req the request object
  * @param{Response} res the response object
@@ -49,7 +49,12 @@ async function postDiscover(req, res) {
 
 	// Getting user activity
 	try {
+		let bestPosts
 		let postList = []
+		let discoverPostsIds = []
+		let discoverPostsUserIds = []
+		let bestPostsIds = []
+		let bestPostsUserIds = []
 
 		// If the user is logged in
 		if (data.id && data.id !== '') {
@@ -90,79 +95,165 @@ async function postDiscover(req, res) {
 
 			// Getting a list of recommended post for the user
 			const discoverPosts = await getDiscoverPosts(data, page)
-			let discoverPostsIds = []
-			let discoverPostsUserIds = []
-			discoverPosts.forEach( discoverPost => {
-				discoverPostsIds.push(discoverPost._id)
-				discoverPostsUserIds.push(discoverPost.user._id)
-			} )
-			log.info('Got discover posts')
+			
+			// Checking of there are no discover post for the logged in user
+			if ( discoverPosts.length < 1 ) {
+				// Getting the best post if there are no recommended posts
+				bestPosts = await getBestPosts(page) 
+				log.info('Got best posts')
+				bestPosts.forEach( bestPost => {
+					bestPostsIds.push(bestPost._id)
+					bestPostsUserIds.push(bestPost.user._id)
+				} )
+				log.info("Got best post ids")
 
-			// Getting the ids of the recommended post liked by the user
-			const userLikedPosts = await getLikedPostsId(data, discoverPostsIds)
-			let userLikedPostsIds = userLikedPosts.map( userLikedPost => userLikedPost.post._id )
-			log.info('Got user liked posts')
+				// Getting the ids of the best post liked by the user
+				const userLikedPosts = await getLikedPostsId(data, bestPostsIds)
+				let userLikedPostsIds = userLikedPosts.map( userLikedPost => userLikedPost.post._id )
+				log.info('Got user liked posts')
 
-			// Getting the user followings ids from the discover posts owners
-			const relations = await getAllRelations(data, discoverPostsUserIds)
-			let follwingsIds = relations.map( item => item.following._id )
-			log.info('Got followed users')
+				// // Getting the user followings ids from the best posts owners
+				// const relations = await getAllRelations(data, bestPostsUserIds)
+				// let follwingsIds = relations.map( item => item.following._id )
+				// log.info('Got followed users')
 
-			// Getting the user favorite posts ids from the discover posts
-			const favoritePosts = await getAllFavoritePostsWithIds(data, discoverPostsIds)
-			let favoritePostsIds = favoritePosts.map( item => item.post._id )
-			log.info('Got user favorite posts')
+				// // Getting the user favorite posts ids from the best posts
+				// const favoritePosts = await getAllFavoritePostsWithIds(data, bestPostsIds)
+				// let favoritePostsIds = favoritePosts.map( item => item.post._id )
+				log.info('Got user favorite posts')
 
-			discoverPosts.forEach( (discoverPost, index) => {
+				bestPosts.forEach( (bestPost, index) => {
 					let postLiked = false
-					let following = false
-					let favorite = false
+					// let following = false
+					// let favorite = false
 					// Checking if the post has been liked by the user
-					if ( userLikedPostsIds.filter( likedPostId => likedPostId.toString() === discoverPost._id.toString() ).length > 0 ) {
+					if ( userLikedPostsIds.filter( likedPostId => likedPostId.toString() === bestPost._id.toString() ).length > 0 ) {
 						postLiked = true
 					}
-					// Checking if the post owner is followed by the user
-					if ( follwingsIds.filter( follwingsId => follwingsId.toString() === discoverPost.user._id.toString() ).length > 0 ) {
-						following = true
-					}
-					// Checking if the post is one of the user favorites
-					if ( favoritePostsIds.filter( favoritePostsId => favoritePostsId.toString() === discoverPost._id.toString() ).length > 0 ) {
-						favorite = true
-					}
-
+					// // Checking if the post owner is followed by the user
+					// if ( follwingsIds.filter( follwingsId => follwingsId.toString() === bestPost.user._id.toString() ).length > 0 ) {
+					// 	following = true
+					// }
+					// // Checking if the post is one of the user favorites
+					// if ( favoritePostsIds.filter( favoritePostsId => favoritePostsId.toString() === bestPost._id.toString() ).length > 0 ) {
+					// 	favorite = true
+					// }
 					postList.push({
 						user: {
-						    _id: discoverPost.user._id,
-						    username: discoverPost.user.username,
-						    profileUrl: discoverPost.user.profileUrl,
-						    isFollowedByUser: following
+					    _id: bestPost.user._id,
+					    username: bestPost.user.username,
+						  profileUrl: bestPost.user.profileUrl,
+						  // isFollowedByUser: following
 						},
 						thumbnail: {
 							desktop: {
 								size: {
-									width: discoverPost.thumbnail.desktop.size.width,
-									height: discoverPost.thumbnail.desktop.size.width
+									width: bestPost.thumbnail.desktop.size.width,
+									height: bestPost.thumbnail.desktop.size.width
 								},
-								url: discoverPost.thumbnail.desktop.url
+								url: bestPost.thumbnail.desktop.url
 							},
 							mobile: {
 								size: {
-									width: discoverPost.thumbnail.mobile.size.width, //300
-									height: discoverPost.thumbnail.mobile.size.width
+									width: bestPost.thumbnail.mobile.size.width, //300
+									height: bestPost.thumbnail.mobile.size.width
 								},
-								url: discoverPost.thumbnail.mobile.url
+								url: bestPost.thumbnail.mobile.url
 							}
 						},
-						_id: discoverPost._id,
-						publicId: discoverPost.publicId,
-						likes: discoverPost.likes,
-						comments: discoverPost.comments,
-						time: discoverPost.time,
+						photo: {
+						    mobile: {
+						        size: {
+						            width: bestPost.photo.mobile.size.width,
+						            height: bestPost.photo.mobile.size.height
+						        },
+						        url: bestPost.photo.mobile.url
+						    },
+						    alt: bestPost.photo.alt
+						},
+						_id: bestPost._id,
+						publicId: bestPost.publicId,
+						likes: bestPost.likes,
+						comments: bestPost.comments,
+						time: bestPost.time,
 						isLikedByUser: postLiked,
-						isUserFavorite: favorite
+						// isUserFavorite: favorite
 					})
-			} )
-			log.info("Mapped discover post with liked post")
+				})
+			}else {
+				discoverPosts.forEach( discoverPost => {
+					discoverPostsIds.push(discoverPost._id)
+					discoverPostsUserIds.push(discoverPost.user._id)
+				} )
+				log.info('Got discover posts')
+
+				// Getting the ids of the recommended post liked by the user
+				const userLikedPosts = await getLikedPostsId(data, discoverPostsIds)
+				let userLikedPostsIds = userLikedPosts.map( userLikedPost => userLikedPost.post._id )
+				log.info('Got user liked posts')
+
+				// // Getting the user followings ids from the discover posts owners
+				// const relations = await getAllRelations(data, discoverPostsUserIds)
+				// let follwingsIds = relations.map( item => item.following._id )
+				// log.info('Got followed users')
+
+				// // Getting the user favorite posts ids from the discover posts
+				// const favoritePosts = await getAllFavoritePostsWithIds(data, discoverPostsIds)
+				// let favoritePostsIds = favoritePosts.map( item => item.post._id )
+				// log.info('Got user favorite posts')
+
+				discoverPosts.forEach( (discoverPost, index) => {
+						let postLiked = false
+						// let following = false
+						// let favorite = false
+						// Checking if the post has been liked by the user
+						if ( userLikedPostsIds.filter( likedPostId => likedPostId.toString() === discoverPost._id.toString() ).length > 0 ) {
+							postLiked = true
+						}
+						// // Checking if the post owner is followed by the user
+						// if ( follwingsIds.filter( follwingsId => follwingsId.toString() === discoverPost.user._id.toString() ).length > 0 ) {
+						// 	following = true
+						// }
+						// // Checking if the post is one of the user favorites
+						// if ( favoritePostsIds.filter( favoritePostsId => favoritePostsId.toString() === discoverPost._id.toString() ).length > 0 ) {
+						// 	favorite = true
+						// }
+
+						postList.push({
+							user: {
+							    _id: discoverPost.user._id,
+							    username: discoverPost.user.username,
+							    profileUrl: discoverPost.user.profileUrl,
+							    // isFollowedByUser: following
+							},
+							thumbnail: {
+								desktop: {
+									size: {
+										width: discoverPost.thumbnail.desktop.size.width,
+										height: discoverPost.thumbnail.desktop.size.width
+									},
+									url: discoverPost.thumbnail.desktop.url
+								},
+								mobile: {
+									size: {
+										width: discoverPost.thumbnail.mobile.size.width, //300
+										height: discoverPost.thumbnail.mobile.size.width
+									},
+									url: discoverPost.thumbnail.mobile.url
+								}
+							},
+							_id: discoverPost._id,
+							publicId: discoverPost.publicId,
+							likes: discoverPost.likes,
+							comments: discoverPost.comments,
+							time: discoverPost.time,
+							isLikedByUser: postLiked,
+							// isUserFavorite: favorite
+						})
+				} )
+				log.info("Mapped discover post with liked post")
+			}
+
 		}else {
 			// Getting the best post if the user is not logged in
 			const bestPosts = await getBestPosts(page) 
@@ -173,7 +264,7 @@ async function postDiscover(req, res) {
 				    _id: bestPost.user._id,
 				    username: bestPost.user.username,
 					  profileUrl: bestPost.user.profileUrl,
-					  isFollowedByUser: false
+					  // isFollowedByUser: false
 					},
 					thumbnail: {
 						desktop: {
@@ -207,7 +298,7 @@ async function postDiscover(req, res) {
 					comments: bestPost.comments,
 					time: bestPost.time,
 					isLikedByUser: false,
-					isUserFavorite: false
+					// isUserFavorite: false
 				})
 			})
 		}
@@ -217,7 +308,6 @@ async function postDiscover(req, res) {
 	}catch(err) {
 		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

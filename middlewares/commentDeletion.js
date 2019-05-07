@@ -48,6 +48,7 @@ async function commentDeletion(req, res) {
 
 	//Checking if the logged in user is the owner of the post
 	try {
+		// Getting the post
 		const userPost = await getUserPostById(data)
 		if (!userPost) {
 			log.error('User post not found')
@@ -65,15 +66,13 @@ async function commentDeletion(req, res) {
 	try {
 		await Promise.all([
 			deleteComment(data), 
-			removeLikedComment(data),
-			//decreasePostComments(data)
+			decreasePostComments(data)
 		])
 		res.sendStatus(200)
 		log.info('Comment deleted')
 	}catch(err){
 		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

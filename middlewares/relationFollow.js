@@ -3,8 +3,10 @@
  * Author: samueladewale
 */
 const { isValidToken, getAuthorizationBearerToken, getTokenPayload } = require('./../modules/authentication')
-const { getUserWithId, increaseUserFollowers, increaseUserFollowings } = require('./../services/user')
-const { createRelation, getRelation } = require('./../services/relation')
+const { getUserWithId, increaseUserFollowers, increaseUserFollowings, decreaseUserFollowers, decreaseUserFollowings } = require('./../services/user')
+const { createRelation, getRelation, deleteRelation } = require('./../services/relation')
+const { createNotification } = require('./../services/notification')
+const { sendFollowerMail } = require('./../modules/mailing')
 const Log = require('./../modules/logging')
 
 /**
@@ -25,6 +27,7 @@ async function relationFollow(req, res) {
 
 	const userToFollow = req.body
 	let user = {}
+	let users
 
 	// Verifying if the authorization token is valid
 	try {
@@ -51,14 +54,50 @@ async function relationFollow(req, res) {
 		return
 	}
 
-	// Checking if the user is already a follower
+	// Following the user
 	try {
 		// Getting the relation beetween the users
 		const hasRelation = await getRelation(user, userToFollow)
+
+		// Checking if the logged in user is already a follower
 		if (hasRelation){
-			res.sendStatus(403)
-			log.error('User is already a follower')
+			// Unfollowing the user
+			await deleteRelation(user, userToFollow)
+			log.info('User is already a follower')
+			log.info("Relation deleted")
+
+			// Decreasing followers and followings counts
+			await Promise.all([
+				decreaseUserFollowers(userToFollow), 
+				decreaseUserFollowings(user)
+				])
+			log.info("Relation count decreased")
+			res.sendStatus(200)
 			return
+		}else {// The logged in user is not a follower
+			// Getting the users
+			users = await Promise.all([
+				getUserWithId(user), 
+				getUserWithId(userToFollow)
+				])
+
+			if ( !users[1] ) {
+				res.sendStatus(404)
+				log.error('User not found')
+				return
+			}
+
+			// Registering the relation
+			await createRelation(users[0], users[1])
+			log.info("Relation created")
+
+			// Inscreasing followers and followings counts
+			await Promise.all([
+				increaseUserFollowers(userToFollow), 
+				increaseUserFollowings(user)
+				])
+			log.info("Relation count inscreased")
+			res.sendStatus(200)
 		}
 
 	}catch(err){
@@ -67,40 +106,33 @@ async function relationFollow(req, res) {
 		return
 	}
 
-	// Creating the relation
+	// Notifying the following
 	try {
-		// Getting the users
-		const users = await Promise.all([
-			getUserWithId(user), 
-			getUserWithId(userToFollow)
-			])
-		if ( !users[1] ) {
-			res.sendStatus(404)
-			log.error('User not found')
-			return
+		const notif = {
+			type: 'follower',
+			sender: {
+				id: users[0]._id,
+				username: users[0].username,
+				profileUrl: users[0].profileUrl
+			},
+			user: {
+				id: users[1]._id
+			},
+			thumbnailUrl: '',
+			url: `/user/${users[0].username}`,
+			body: ''
 		}
 
-		// Registering the relation
-		const relation = await createRelation(users[0], users[1])
-		res.sendStatus(200)
-		log.info("Relation created")
+		// Creating the notification
+		await createNotification(notif)
+		log.info("Created Notification")
 
-	}catch(err) {
-		res.sendStatus(500)
+		// Sending a notification mail to the user
+		sendFollowerMail(users[0], users[1]).catch(err => log.error(err))
+		log.info("Notification Mail sent")
+	}catch(err){
 		log.error(err)
-		return
 	}
-
-	// Increasing relations count
-	try {
-		await Promise.all([
-			increaseUserFollowers(userToFollow), 
-			increaseUserFollowings(user)
-			])
-		log.info("Relation count inscreased")
-	}catch(err) {
-		log.error(err)
-	} 
 
 }
 

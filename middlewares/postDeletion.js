@@ -8,6 +8,7 @@ const { findAndDeleteUserPost, getUserPost } = require('./../services/post')
 const { removeLikedPosts } = require('./../services/likedPost')
 const { removeFavoritePosts } = require('./../services/favoritePost')
 const { removePostViews } = require('./../services/postView')
+const { deletePostComments } = require('./../services/comment')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const { deletePostPicture, getFileNameFromUrl } = require('./../modules/file')
 const Log = require('./../modules/logging')
@@ -67,7 +68,8 @@ async function postCreationPhoto(req, res) {
 		await Promise.all([
 				removeFavoritePosts(data),
 				removeLikedPosts(data),
-				removePostViews(data)
+				removePostViews(data),
+				deletePostComments(data)
 			])
 
 		await decreaseUserPosts(data) // Decreasing user post count
@@ -108,7 +110,6 @@ async function postCreationPhoto(req, res) {
 		log.info("Post pictures deleted")
 	}catch(err) {
 		log.error(err)
-		return
 	}
 
 }

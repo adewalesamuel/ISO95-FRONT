@@ -1,28 +1,25 @@
 /**
- * Comment register middleware
+ * Message sending middleware
  * Author: samueladewale
 */
-const { createComment } = require('./../services/comment')
-const { increasePostComments } = require('./../services/post')
+const { createMessage } = require('./../services/message')
 const { getUserWithId } = require('./../services/user')
-const { getPost } = require('./../services/post')
 const { createNotification } = require('./../services/notification')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
-const { sendPostCommentMail } = require('./../modules/mailing')
+const { sendMessageMail } = require('./../modules/mailing')
 const Log = require('./../modules/logging')
 
 /**
- * Registers a post comment
+ * Save a message
  *
  * @param{Request} req the request object
  * @param{Response} res the response object
 */
-async function commentRegistration(req, res) {
+async function messageSending(req, res) {
 	const log = new Log(req)	
 
 	// Checking if all the required params are correct
-	if (!req.body.postId || !req.body.postId.trim() === '' ||
-		!req.body.comment || !req.body.comment.trim() === '') {
+	if (!req.body.message || !req.body.userId || !req.body.userId.trim() === '') {
 		res.sendStatus(400)
 		log.error("The fields are not correct")
 		return
@@ -60,24 +57,19 @@ async function commentRegistration(req, res) {
 		return
 	}
 
-	// Creating the user post comment
+	// Saving the message
 	try {
-		await createComment(data, user)
+		await createMessage(data, user)
 		log.info("Comment created")
 		res.sendStatus(200)
-
-		await increasePostComments(data)
-		log.info("Post comment count inscreased")
-
 	}catch(err){
 		res.sendStatus(500)
 		log.error(err)
 		return
 	}
 
-	// Notifying the post comment
+	// Notifying the message
 	try {
-		const post = await getPost(data)
 		const notif = {
 			type: 'comment',
 			sender: {
@@ -86,23 +78,20 @@ async function commentRegistration(req, res) {
 				profileUrl: user.profileUrl
 			},
 			user: {
-				id: post.user._id
+				id: data.userId
 			},
-			thumbnailUrl: post.thumbnail.mobile.url,
-			url: `/post/${post.publicId}`,
+			thumbnailUrl: '',
+			url: `/user/${user.username}`,
 			body: data.comment
 		}
 
-		await createNotification(notif)
-		log.info("Created Notification")
-
 		//Sending a notification mail to the user
 		const userTo = await getUserWithId(notif.user)
-		sendPostCommentMail(user, userTo, post).catch(err => log.error(err))
+		sendMessageMail(user, userTo).catch(err => log.error(err))
 		log.info("Notification Mail sent")
 	}catch(err){
 		log.error(err)
 	}
 }
 
-module.exports = commentRegistration
+module.exports = messageSending

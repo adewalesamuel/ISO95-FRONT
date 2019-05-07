@@ -90,8 +90,8 @@ async function postLikeUser(req, res) {
 		res.json(userList)
 		log.info("Got user posts")
 	}catch(err) {
+		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

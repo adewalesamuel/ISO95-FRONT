@@ -1,31 +1,23 @@
 /**
- * Post set photo alt middleware
+ * Message view update middleware
  * Author: samueladewale
 */
-const { updatePostAltByPublicId } = require('./../services/post')
+
+const { updateUserNew } = require('./../services/user')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const Log = require('./../modules/logging')
 
 /**
- * Updates the post alt
+ * Registering a post view
  *
  * @param{Request} req the request object
  * @param{Response} res the response object
 */
-async function postSetPhotoAlt(req, res) {
+async function userNewUpdate(req, res) {
 	const log = new Log(req)	
+	let data = {}
 
-	// Checking if all the required params are correct
-	if (!req.body.publicId || req.body.publicId.trim() === '' || 
-		!req.body.alt ) {
-		res.sendStatus(400)
-		log.error("The fields are not correct")
-		return
-	}
-
-	let data = req.body
-
-	// Verifying if the authorization token is valid
+	// Verifying if the authorazation token is valid
 	try {
 		const sessionToken = getAuthorizationBearerToken(req)
 		const tokenPayload = getTokenPayload(sessionToken)
@@ -44,20 +36,16 @@ async function postSetPhotoAlt(req, res) {
 		return
 	}
 
-	// Updating the post photo alt
+	// Updating the user new
 	try {
-		const updatedPost = await updatePostAltByPublicId(data)
-		if ( updatedPost.n === 0 ) {
-			res.sendStatus(404)
-			log.error("User post not found")
-			return
-		}
+		await updateUserNew(data)
+		log.info('User new updated')
 		res.sendStatus(200)
-		log.info("Updated post alt deleted")
-	}catch(err){
+	}catch(err) {
 		res.sendStatus(500)
 		log.error(err)
 	}
+
 }
 
-module.exports = postSetPhotoAlt
+module.exports = userNewUpdate 

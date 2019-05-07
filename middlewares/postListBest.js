@@ -178,8 +178,8 @@ async function postListBest(req, res) {
 		res.json(postList)
 		log.info("Got user posts")
 	}catch(err) {
+		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

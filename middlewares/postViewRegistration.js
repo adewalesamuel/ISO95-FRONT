@@ -4,7 +4,7 @@
 */
 
 const { increasePostViews, getPost } = require('./../services/post')
-const { createPostView } = require('./../services/postView')
+const { createPostView, getUserPostView } = require('./../services/postView')
 const { getUserWithId } = require('./../services/user')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
 const Log = require('./../modules/logging')
@@ -47,7 +47,7 @@ async function postViewRegistration(req, res) {
 
 	// Registering the view
 	try {
-		// If the user is not logged in
+		// If the user is logged in
 		if ( data.id && data.id !== '' ) {
 			// Getting the user
 			user = await getUserWithId(data)
@@ -57,19 +57,19 @@ async function postViewRegistration(req, res) {
 			const post = await getPost(data)
 			log.info('Got post')
 
-			// Registering the the view of the user
-			const postView = await createPostView(user, post)
+			// Registering the post view of the user
+			const postView = await getUserPostView(user, post)
+			if ( !postView ) await createPostView(user, post)
 			log.info('Post view created')
 		}
 
 		// Increasing the post view count
-		const hasIncreasedPostView = await increasePostViews(data)
+		await increasePostViews(data)
 		log.info('Post view inscreased')
 		res.sendStatus(200)
 	}catch(err) {
 		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

@@ -130,8 +130,8 @@ async function postFeedUser(req, res) {
 		res.json(postFeed)
 		log.info("Got post feed")
 	}catch(err) {
+		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

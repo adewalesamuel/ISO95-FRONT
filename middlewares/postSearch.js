@@ -58,50 +58,52 @@ async function postListTags(req, res) {
 		if (data.id || data.id !== '') {
 			let queryPostsIds = []
 			let queryPostsUserIds = []
+
+			// Getting the users and posts ids
 			queryPosts.forEach( item => {
 				queryPostsIds.push(item._id )
 				queryPostsUserIds.push(item.user._id)
 			})
-			log.info('Got user posts ids')
+			log.info('Got users and posts ids')
 
 			// Getting user liked posts ids  by the logged in user 
 			const userLikedPosts = await getLikedPostsId(data, queryPostsIds)
 			let likedPostIds = userLikedPosts.map( item => item.post._id )
 			log.info('Got user liked posts')
 
-			// Getting the user followings ids from the discover posts owners
-			const relations = await getAllRelations(data, queryPostsUserIds)
-			let follwingsIds = relations.map( item => item.following._id )
-			log.info('Got followed users')
+			// // Getting the user followings ids from the discover posts owners
+			// const relations = await getAllRelations(data, queryPostsUserIds)
+			// let follwingsIds = relations.map( item => item.following._id )
+			// log.info('Got followed users')
 
-			// Getting the user favorite posts ids beetween the user posts
-			const favoritePosts = await getAllFavoritePostsWithIds(data, queryPostsIds)
-			let favoritePostsIds = favoritePosts.map( item => item.post._id )
-			log.info('Got user favorite posts')
+			// // Getting the user favorite posts ids beetween the user posts
+			// const favoritePosts = await getAllFavoritePostsWithIds(data, queryPostsIds)
+			// let favoritePostsIds = favoritePosts.map( item => item.post._id )
+			// log.info('Got user favorite posts')
 
 			// Checking if the user post has been liked by the user
 			queryPosts.forEach( (queryPost, index) => {
 				let likedPost = false
-				let favorite = false
-				let following = false
+				// let favorite = false
+				// let following = false
 				// Checking if the post has been liked by the user
 				if ( likedPostIds.filter( likedPostId => likedPostId.toString() === queryPost._id.toString() ).length > 0 ) {
 					likedPost = true
 				}
-				// Checking if the post owner is followed by the user
-				if ( follwingsIds.filter( follwingsId => follwingsId.toString() === queryPost.user._id.toString() ).length > 0 ) {
-					following = true
-				}
-				// Chekcing if the post is one of the user favorite
-				if ( favoritePostsIds.filter( favoritePostsId => favoritePostsId.toString() === queryPost._id.toString() ).length > 0 ) {
-					favorite = true
-				}
+				// // Checking if the post owner is followed by the user
+				// if ( follwingsIds.filter( follwingsId => follwingsId.toString() === queryPost.user._id.toString() ).length > 0 ) {
+				// 	following = true
+				// }
+				// // Chekcing if the post is one of the user favorite
+				// if ( favoritePostsIds.filter( favoritePostsId => favoritePostsId.toString() === queryPost._id.toString() ).length > 0 ) {
+				// 	favorite = true
+				// }
 				postList.push({
 					user: {
 					    _id: queryPost.user._id,
 					    username: queryPost.user.username,
 					    profileUrl: queryPost.user.profileUrl,
-					    isFollowedByUser: following
+					    // isFollowedByUser: following
 					},
 					thumbnail: {
 						desktop: {
@@ -125,7 +127,7 @@ async function postListTags(req, res) {
 					comments: queryPost.comments,
 					time: queryPost.time,
 					isLikedByUser: likedPost,
-					isUserFavorite: favorite
+					// isUserFavorite: favorite
 				})
 					
 			} )
@@ -174,8 +176,8 @@ async function postListTags(req, res) {
 		res.json(postList)
 		log.info("Got user posts")
 	}catch(err) {
+		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

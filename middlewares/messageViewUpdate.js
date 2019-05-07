@@ -1,31 +1,29 @@
 /**
- * Comment like middleware
+ * Message view update middleware
  * Author: samueladewale
 */
 
-const { createLikedComment, getUserLikedComment, removeUserLikedComment } = require('./../services/likedComment')
+const { updateMessageView } = require('./../services/message')
 const { getAuthorizationBearerToken, isValidToken, getTokenPayload } = require('./../modules/authentication')
-const { createNotification, removeUserNotification } = require('./../services/notification')
 const Log = require('./../modules/logging')
 
 /**
- * Liking or unliking a comment
+ * Registering a post view
  *
  * @param{Request} req the request object
  * @param{Response} res the response object
 */
-async function commentLike(req, res) {
+async function messageViewUpdate(req, res) {
 	const log = new Log(req)	
 
 	// Checking if all the required params are correct
-	if (!req.body.postId || !req.body.postId.trim() === '' ||
-		!req.body.commentId || !req.body.commentId.trim() === '') {
+	if (!req.body.senderId || !req.body.senderId.trim() === '') {
 		res.sendStatus(400)
 		log.error("The fields are not correct")
 		return
 	}
 
-	const data = req.body
+	let data = req.body
 
 	// Verifying if the authorazation token is valid
 	try {
@@ -38,7 +36,7 @@ async function commentLike(req, res) {
 			return
 		}
 
-		data.id = tokenPayload.id // The id of the logged in user 
+		data.id = tokenPayload.id // the id of the logged in user
 
 	}catch(err) {
 		res.sendStatus(500)
@@ -46,26 +44,16 @@ async function commentLike(req, res) {
 		return
 	}
 
-	// Registering the like
+	// Updating the message view
 	try {
-		// Checking if the user already like the comment
-		const likedComment = await getUserLikedComment(data)
-		if ( !likedComment ) {
-			await createLikedComment(data)
-			log.info("Comment like registered")
-		}else {
-			// Unliking the comment
-			await removeUserLikedComment(data)
-			log.info("Comment unliked")
-		}
+		await updateMessageView(data)
+		log.info('Message view updated')
 		res.sendStatus(200)
-
 	}catch(err) {
 		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }
 
-module.exports = commentLike 
+module.exports = messageViewUpdate 

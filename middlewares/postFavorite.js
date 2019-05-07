@@ -77,7 +77,6 @@ async function postFavorite(req, res) {
 	}catch(err) {
 		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }

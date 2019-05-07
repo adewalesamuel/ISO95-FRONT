@@ -16,7 +16,7 @@ const Log = require('./../modules/logging')
  * @param{Request} req the request object
  * @param{Response} res the response object
 */
-async function posyDisplay(req, res) {
+async function postDisplay(req, res) {
 	const log = new Log(req)	
 
 	// Checking if all the required params are correct
@@ -45,7 +45,7 @@ async function posyDisplay(req, res) {
 		log.info('No token')
 	}
 
-	// Gettings a post
+	// Getting a post
 	try {
 		let postLiked = false
 		let favorite  = false
@@ -185,10 +185,10 @@ async function posyDisplay(req, res) {
 		res.json(postData)
 		log.info("Got post")
 	}catch(err) {
+		res.sendStatus(500)
 		log.error(err)
-		return
 	}
 
 }
 
-module.exports = posyDisplay
+module.exports = postDisplay
