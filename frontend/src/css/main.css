@@ -1,0 +1,139 @@
+@font-face {
+	font-family: 'Graphick LCG Thin';
+	src: url('/fonts/GraphikLCG-Thin.otf');
+	font-style: normal;
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: 'Graphick LCG Extralight';
+	src: url('/fonts/GraphikLCG-Extralight.otf');
+	font-style: normal;
+	font-weight: 100;
+}
+
+@font-face {
+	font-family: 'Graphick LCG Light';
+	src: url('/fonts/GraphikLCG-Light.otf');
+	font-style: normal;
+	font-weight: 200;
+}
+
+@font-face {
+	font-family: 'Graphick LCG Regular';
+	src: url('/fonts/GraphikLCG-Regular.otf');
+	font-style: normal;
+	font-weight: 300;
+}
+
+@font-face {
+	font-family: 'Graphick LCG Medium';
+	src: url('/fonts/GraphikLCG-Medium.otf');
+	font-style: normal;
+	font-weight: 500;
+}
+
+@font-face {
+	font-family: 'Graphick LCG Semibold';
+	src: url('/fonts/GraphikLCG-Semibold.otf');
+	font-style: normal;
+	font-weight: 600;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Graphick LCG Light' ,-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, a, span, input, textarea, select, del, ins, sub, sup, time, table, small,
+strong, code, ul, li, dl, dt, dd {
+  font-size: 0.88rem;
+}
+
+strong {
+	font-family: 'Graphick LCG Medium'
+}
+
+h1 { 
+	font-family: 'Graphick LCG Light';
+	letter-spacing: 0.04rem;
+ }
+
+h1.big-title {
+	font-family: 'Graphick LCG Extralight';
+	font-size: 2.96rem;
+	margin-top: 0;
+}
+
+h2, h3, h4, h5, h6 {
+	font-family: 'Graphick LCG Regular';
+	margin-top: 0;
+}
+
+h1 { font-size: 1.6rem  }
+h2 { font-size: 1.42rem  }
+h3 { font-size: 1.40rem  }
+h4 { font-size: 1.20rem  }
+h5 { font-size: 1rem  }
+h6 { font-size: 0.80rem  }
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+} 
+
+button {
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  background-color: transparent;
+  padding: 0;
+}
+
+.col-10 {width: 10%;}
+.col-20 {width: 20%;}
+.col-30 {width: 30%;}
+.col-40 {width: 40%;}
+.col-50 {width: 50%;}
+.col-60 {width: 60%;}
+.col-70 {width: 70%;}
+.col-80 {width: 80%;}
+.col-90 {width: 90%;}
+.col-100 {width: 100%;}
+
+.col-third {width: 33.33%}
+.col-fourth {width: 25%}
+
+.site-logo h2 {
+ font-family: 'Graphick LCG Medium';
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.overlay.dark {
+	background-color: rgba(0,0,0,0.3);
+}
+
+.right {
+   float: right;
+}
+
+.left {
+   float: left;
+}

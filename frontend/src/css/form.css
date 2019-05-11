@@ -1,0 +1,50 @@
+form {
+	text-align: left;
+	display: block;
+	width: 100%;
+}
+
+form button {
+	width: 100%;
+	margin-top: 20px;
+}
+
+form a {
+	display: block;
+}
+
+label {
+	font-size: 0.90rem;
+	display: block;
+	font-family: 'Graphick LCG Regular';
+	margin-top: 5px;
+}
+
+input, textarea, select {
+	font-family: 'Graphick LCG Light';
+	font-size: 1rem;
+	padding: 10px 12px;
+	border-radius: 2px;
+	border: 1px solid #E6E6E8;
+	width: 100%;
+}
+
+input:focus, textarea:focus {
+	border: 1px solid black;
+}
+
+#password ~ img {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	right: 10px;
+	cursor: pointer;
+}
+
+.form-control {
+	position: relative;
+	display: inline-block;
+	width: 100%;
+	padding: 7px 0;
+}
+

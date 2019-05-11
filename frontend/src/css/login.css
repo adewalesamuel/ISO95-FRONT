@@ -1,0 +1,36 @@
+.login {
+	position: relative;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	min-height: 100vh;
+}
+
+.login section {
+	display: flex;
+	align-items: center;
+} 
+
+.login section.form {
+	padding: 0 20px;
+}
+
+.login section.form .content{
+	text-align: center;
+	padding: 25px;
+	border-radius: 2px;
+	border: 1px solid #E5E7EA;
+	box-shadow: 0 0 1px rgba(10, 20, 45, 0.17)
+}
+
+.login section.image button {
+	width: 230px;
+}
+
+.login section.form .content {
+	max-width: 355px;
+}
+
+@media screen and (max-width: 900px) {
+
+}
