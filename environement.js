@@ -8,8 +8,8 @@ module.exports = {
 		host: 'smtp.mail.yahoo.com',
 		port: 465,
 		auth: {
-			user: 'samroberval@yahoo.fr',
-			pass: 'Scipion777',
+			user: '',
+			pass: '',
 		}
 	}
 }
