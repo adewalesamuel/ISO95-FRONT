@@ -1,0 +1,31 @@
+.best {
+	max-width: 900px;
+	margin: auto;
+	padding: 50px 0;
+}
+
+.best .post-list li {
+	width: 100% !important;
+	padding: 0;
+	padding-bottom: 20px;
+	margin-bottom: 30px; 
+}
+
+.best .post-list li:last-of-type {
+	margin-bottom: 0; 
+}
+
+.best .content > h6 {
+	opacity: 0.3;
+	margin: 0;
+}
+
+@media screen and (max-width: 960px) {
+	.best .post-card .body {
+		display: block;
+	}
+
+	.best .post-list li {
+		margin-bottom: 0; 
+	}
+}

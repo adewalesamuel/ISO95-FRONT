@@ -1,0 +1,87 @@
+button:active {
+	transform: scale(0.99);
+	color: inherit;
+}
+
+button:focus {
+	outline: none !important;
+}
+
+button.primary, button.secondary {
+	border-radius: 2px;
+}
+
+button.primary .loader-container, button.secondary .loader-container {
+	height: auto;
+	padding: 0;
+}
+
+button.primary {
+	font-family: 'Graphick LCG Medium';
+	background-color: #EEF91C;
+	box-shadow: 0 0 2px 1px #EEF91C;
+}
+
+button.secondary {
+	font-family: 'Graphick LCG Regular';
+	background-color: transparent;
+	color: black;
+	border: 1px solid #767677;
+}
+
+button.big {
+	font-size: 1rem;
+	padding: 13px 30px;
+}
+
+button.secondary.big {
+	padding: 12px 30px;
+}
+
+button.secondary.small {
+	padding: 7px 20px;
+}
+
+button.small {
+	font-size: 0.88rem;
+	padding: 8px 20px;
+}
+
+button.text {
+	position: relative;
+	background-color: transparent;
+	border: none;
+	box-shadow: none;
+	font-family: 'Graphick LCG Medium';
+	z-index: 1;
+}
+
+button.text.secondary {
+	opacity: 0.8;
+	border: none;
+}
+
+button.text.primary::before {
+	content: '';
+	display: block;
+	position: absolute;
+	background-color: #EEF91C;
+	height: 6px;
+	width: 100%;
+	bottom: 0px;
+	z-index: -1;
+} 
+
+@media screen and (max-width: 550px) {
+
+	button.big {
+		font-size: 0.9rem;
+		padding: 8px 20px;
+	}
+
+
+	button.secondary.big {
+		padding: 7px 20px;
+	}
+
+}

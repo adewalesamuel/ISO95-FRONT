@@ -1,0 +1,35 @@
+.post-list-container {
+	position: relative;
+	overflow: hidden;
+}
+
+.post-list {
+	padding-top: 45px;
+	display: inline-block;
+	position: relative;
+	width: calc(100% + 40px);
+	min-height: 100px;
+}
+
+.post-list li {
+	float: left;
+	width: 50%;
+	padding: 0 40px 40px 0;
+}
+
+@media screen and (max-width: 1150px) {
+	.post-list li {
+		padding: 1px;
+	}
+
+	.post-list {
+		width: 100%;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	.post-list {
+		padding-top: 20px;
+	}
+
+}

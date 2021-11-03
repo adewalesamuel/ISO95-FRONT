@@ -1,0 +1,26 @@
+.login {
+	position: relative;
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-around;
+	min-height: 100vh;
+}
+
+.login section {
+	display: flex;
+	align-items: center;
+} 
+
+.login section.form {
+	padding: 0 20px;
+}
+
+.login section.form .content { 
+	max-width: 355px;
+	text-align: center;
+	padding: 25px;
+}
+
+.login section.image button {
+	width: 230px;
+}

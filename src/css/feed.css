@@ -1,0 +1,38 @@
+.feed {
+	max-width: 900px;
+	margin: auto;
+	padding: 13px 0;
+}
+
+.feed .post-list li {
+	width: 100% !important;
+	padding: 0;
+	padding-bottom: 20px;
+	margin-bottom: 30px; 
+}
+
+.feed .post-list li:last-of-type {
+	margin-bottom: 0; 
+}
+
+@media screen and (max-width: 960px) {
+	.feed .post-card .body {
+		display: block;
+ }
+
+	.feed .post-list li {
+		margin-bottom: 0; 
+	}
+
+	.feed .posts .post-card .top {
+		display: flex;
+		opacity: 1;
+		position: relative;
+		z-index: 1;
+		width: 100%;
+	}
+
+	.feed .posts .post-card .top h6 {
+		color: inherit;
+	}
+}

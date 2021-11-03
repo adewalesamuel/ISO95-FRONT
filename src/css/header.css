@@ -1,0 +1,111 @@
+header .content {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 1900px;
+	margin: auto;
+	padding: 25px 50px;
+}
+
+header .site-logo h2 {
+	margin: 0;
+}
+
+header .form-control {
+	padding: 0;
+}
+
+header .search-bar {
+	width: 100%;
+	max-width: 513px;
+}
+
+header .search-bar img {
+	opacity: 0.2;
+}
+
+header .navicons button.icon {
+	padding: 2px 2px;
+	margin-left: 18px;
+}
+
+header .navicons ul.nav-list {
+	display: flex;
+	align-items: center;
+}
+
+header .navicons .nav-item {
+	position: relative;
+}
+
+header .navicons .profile .avatar {
+	width: 37px;
+	height: 37px;
+}
+
+header .navicons .profile .dropdown {
+	position: absolute;
+	top: 70px;
+	left: -135px;
+	border-radius: 2px;
+	background-color: white;
+	box-shadow: 0 0 3px 0px rgba(10,20,45,0.4);
+	min-width: 210px;
+	z-index: 10;
+}
+
+header .navicons .dropdown::before {
+	content: '';
+	transform: rotate(45deg);
+	top: -11px;
+	right: 21px;
+	width: 26px;
+	height: 23px;
+	background-color: white;
+	box-shadow: -1.5px -1px 1px -0.5px rgba(10,20,45,0.4);
+	border-radius: 2px;
+	position: absolute;
+}	
+
+header .navicons .dropdown ul {
+	width: 100%;
+	padding: 12px 0;
+}
+
+header .navicons .dropdown li {
+	font-size: 1.15rem;
+	padding: 10px 25px;
+}
+
+header .navicons .dropdown li:hover {
+	background-color: rgba(0,0,0,0.02);
+}
+
+header .navicons .dropdown ul > a,
+header .navicons .dropdown ul > button {
+	width: 100%;
+	text-align: left;
+}
+
+header .navicons .dropdown .new-post {
+	font-family: 'Graphick LCG Regular';
+}
+
+header .navicons .dropdown #logoutBtn {
+	font-family: 'Graphick LCG Light';
+}
+
+@media screen and (max-width: 960px) {
+	header {
+		box-shadow: 0 0 3px rgba(20, 27, 66, 0.19)
+	}
+
+	header .content {
+		padding: 15px 20px;
+	}
+
+	header .navicons, header .search-bar {
+		display: none;
+	}
+}
+

@@ -1,0 +1,38 @@
+.followers, .following {
+	max-width: 940px;
+	margin: auto;
+	margin-top: 30px;
+	padding: 20px;
+	overflow-x: hidden;
+}
+
+.followers h2, .following h2{
+	font-family: 'Graphick LCG Light';
+	margin: 0;
+}
+
+.followers .top, .followers .bottom, 
+.following .top, .following .bottom {
+	display: flex;
+	align-items: center;
+}
+
+.followers .top, .following .top {
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 20px;
+}
+
+.followers .user-list ul, .following .user-list ul {
+	display: flex;
+	align-items: center;
+	flex-flow: row wrap;
+	width: calc(100% + 54px);
+	margin-left: -27px;
+	min-height: 100px;
+}
+
+.followers .user-list li, .following .user-list li {
+	transition: opacity 500ms ease;
+	padding: 20px 27px;
+}

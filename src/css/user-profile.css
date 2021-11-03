@@ -1,0 +1,232 @@
+.user-profile {
+	max-width: 1108px;
+	margin: auto;
+	padding-top: 80px;
+}
+
+.user-profile .header, .user-profile > .body {
+	display: flex;
+	padding: 0 20px;
+}
+
+.user-profile .header {
+	padding: 0 20px;
+	padding-bottom: 50px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.user-profile .header .user {
+	display: flex;
+	align-items: center;
+}
+
+.user-profile .header .image {
+	overflow: hidden;
+	position: relative;
+	border-radius: 100%;
+}
+
+.user-profile #avatar {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.user-profile .header .image img {
+	height: 100%;
+	width: 100%;
+	object-fit: cover;
+}
+
+.user-profile .header .image button {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 163px;
+	color: white;
+	border-color: white;
+}
+
+.user-profile .header .overlay {
+	background-color: rgba(0,0,0,0.4);
+	opacity: 0;
+}
+
+.user-profile .header .image:hover .overlay {
+	opacity: 1 !important;
+}
+
+.user-profile .overlay .loader {
+	border-color: white;
+}
+
+.user-profile .header .names {
+	padding-left: 15px;
+}
+
+.user-profile .header h4 {
+	margin-bottom: 10px;
+}
+
+.user-profile .header .buttons {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+
+.user-profile .header button.big {
+	min-width: 158px;
+}
+
+.user-profile > .body .stats {
+	text-align: center;
+}
+
+.user-profile > .body .stats > div {
+	padding: 10px 0;
+}
+
+.user-profile > .body .stats a {
+	line-height: 1;
+}
+
+.user-profile > .body .big-title {
+	margin-bottom: 5px;
+}
+
+.user-profile > .body .info {
+	padding-top: 10px;
+	padding-left: 15%;
+	width: 627px;
+}
+
+.user-profile > .body .info ul {
+	padding-top: 20px;
+}
+
+.user-profile > .body .info ul li {
+	padding-bottom: 13px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.user-profile > .body .info ul img {
+	margin-right: 20px;
+} 
+
+.user-profile > .body .info button.secondary {
+	width: 180px;
+}
+
+.user-profile .posts {
+	padding: 0 20px;
+	margin-top: 50px;
+	min-height: 300px;
+}
+
+.user-profile .posts .post-nav h1 {
+	margin: 0;
+} 
+
+.user-profile .posts .post-nav button {
+	margin-right: 30px; 
+}
+
+.user-profile .post-card .top {
+	display: none;
+}
+
+@media screen and (max-width: 960px) {
+	.user-profile .header .image .avatar {
+		width: 80px !important;
+		height: 80px !important;
+	}
+
+	.user-profile .header {
+		padding: 0 20px;
+		padding-bottom: 20px;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.user-profile .header .image {
+		border-radius: 0;
+	} 
+
+	.user-profile .header .user .overlay {
+		display: none;
+	}
+
+}
+
+@media screen and (max-width: 550px) {
+	.user-profile {
+		padding-top: 20px;
+	}
+
+	.user-profile .header .user {
+		padding-top: 20px;
+		display: block;
+		width: 82px;
+		white-space: nowrap;
+	}
+
+	.user-profile .header .user .names {
+		padding: 0;
+		padding-top: 20px;
+	}
+
+	.user-profile .header .buttons {
+		margin-top: -52px; 
+	}
+
+	.user-profile > .body .stats .following-count > p {
+		width: 100px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.user-profile > .body .stats p {
+		font-size: 1rem !important;
+	}
+
+	.user-profile > .body .stats > div {
+		padding: 3px 0;
+	}
+
+	.user-profile > .body .stats h1.big-title {
+		font-size: 2.2rem;
+	}
+
+	.user-profile > .body .info {
+		padding-left: 10px;
+		overflow: hidden;
+	}
+
+	.user-profile > .body .info ul {
+		padding-top: 20px;
+	}
+
+	.user-profile > .body .info ul li {
+		padding-bottom: 8px;
+	}
+
+	.user-profile > .body .info ul img {
+		margin-right: 10px;
+	} 
+
+	.user-profile .posts {
+		padding: 0;
+	}
+
+	.user-profile .posts .post-list {
+		padding-top: 20px;
+	}
+}

@@ -1,35 +1,33 @@
 {
-  "name": "iso95",
-  "version": "1.0.0",
-  "description": "Application de partage de photos profesionnelles en Afrique",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/adewalesamuel/ISO95.git"
-  },
-  "keywords": [
-    "Photos",
-    "Afrique",
-    "Photographe",
-    "Photography",
-    "Picture",
-    "Africa",
-    "App"
-  ],
-  "author": "samueladewale",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/adewalesamuel/ISO95/issues"
-  },
-  "homepage": "https://github.com/adewalesamuel/ISO95#readme",
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.5.2",
-    "nodemailer": "^6.1.1",
-    "nodemon": "^1.18.11"
-  }
+    "react": "^16.10.2",
+    "react-dom": "^16.10.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.3.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "homepage": "."
 }

@@ -1,0 +1,181 @@
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Graphick LCG Light' ,-apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, a, span, input, textarea, select, del, ins, sub, sup, time, table, small,
+strong, code, ul, li, dl, dt, dd, em, textarea {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+em {
+	font-family: 'Graphick LCG Regular';
+	font-style: normal;
+	vertical-align: middle;
+}
+
+h1 { 
+	font-family: 'Graphick LCG Light';
+	letter-spacing: 0.04rem;
+ }
+
+h1.big-title, h1.title {
+	font-family: 'Graphick LCG Thin';
+	margin-top: 0;
+}
+
+h1.big-title {
+	font-size: 2.96rem;
+}
+
+h1.title {
+	margin: 0;
+}
+
+h2, h3, h4, h5, h6 {
+	font-family: 'Graphick LCG Regular';
+	margin-top: 0;
+}
+
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.42rem;  }
+h3 { font-size: 1.35rem;  }
+h4 { font-size: 1.07rem;  }
+h5 { font-size: 1rem;  }
+h6 { font-size: 0.80rem; margin-bottom: 25px;  }
+
+a {
+  display: inline-block;
+  text-decoration: none;
+  color: black;
+} 
+
+button {
+  border: none;
+  cursor: pointer !important;
+  text-align: center;
+  background-color: transparent;
+  padding: 0;
+}
+
+img {
+	max-width: 100%;
+	vertical-align: middle;
+}
+
+figure {
+	margin: 0;
+	padding: 0;
+}
+
+ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+img.success-icon {
+	margin-bottom: 20px;
+}
+
+.col-10 {width: 10%;}
+.col-20 {width: 20%;}
+.col-30 {width: 30%;}
+.col-40 {width: 40%;}
+.col-50 {width: 50%;}
+.col-60 {width: 60%;}
+.col-70 {width: 70%;}
+.col-80 {width: 80%;}
+.col-90 {width: 90%;}
+.col-100 {width: 100%;}
+
+.col-third {width: 33.33%}
+.col-fourth {width: 25%}
+
+.site-logo h2 {
+ font-family: 'Graphick LCG Medium';
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.card {
+	border-radius: 2px;
+	border: 1px solid #E5E7EA;
+	background-color: white;
+	box-shadow: 0 0 1px rgba(10, 20, 45, 0.17);
+}
+
+.overlay.dark, .modal {
+	background-color: rgba(0,0,0,0.3);
+}
+
+.modal > section {
+	background-color: white;
+	border-radius: 3px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+	height: calc(100vh - 50px);
+}
+
+.modal > #closeBtn {
+	position: absolute;
+	top: 2%;
+	right: 1.2%; 
+}
+
+.right {
+   float: right;
+}
+
+.left {
+   float: left;
+}
+
+.faded {
+	opacity: 0;
+}
+
+.feed .post-list, .best .post-list {
+   width: 100% !important;
+}
+
+@media screen and (max-width: 720px) {
+	.popular-users .user-list li, .followers .user-list li, 
+	.following .user-list li {
+		width: 33.33% !important;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	h3 { font-size: 1rem;  }
+
+	p, a, span, input, textarea, select, del, ins, sub, sup, time, table, small,
+	strong, code, ul, li, dl, dt, dd, em, textarea {
+	  font-size: 0.9rem;
+	}
+
+	.popular-users .user-list ul {
+		padding: 0 12px;
+	}
+
+	.popular-users .user-list li, .followers .user-list li, 
+	.following .user-list li {
+		width: 50% !important;
+		padding: 12px 15px !important;
+	}
+}

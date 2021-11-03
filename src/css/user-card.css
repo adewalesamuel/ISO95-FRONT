@@ -1,0 +1,12 @@
+.user.card {
+	text-align: center;
+	padding: 10px;
+}
+
+.user.card button {
+	width: 100%;
+}
+
+.user.card .avatar {
+	margin: auto;
+}

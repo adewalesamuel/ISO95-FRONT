@@ -1,0 +1,47 @@
+.popular-users {
+	max-width: 940px;
+	margin: auto;
+	margin-top: 30px;
+	padding: 20px;
+	overflow-x: hidden;
+}
+
+.popular-users h2 {
+	font-family: 'Graphick LCG Light';
+	margin: 0;
+}
+
+.popular-users .top, .popular-users .bottom {
+	display: flex;
+	align-items: center;
+}
+
+.popular-users .top {
+	align-items: center;
+	justify-content: space-between;
+	padding-bottom: 20px;
+}
+
+.popular-users .user-list ul {
+	display: flex;
+	align-items: flex-start;
+	flex-flow: row wrap;
+	width: calc(100% + 54px);
+	margin-left: -27px;
+	min-height: 100px;
+}
+
+.popular-users .user-list li {
+	transition: opacity 500ms ease;
+	padding: 20px 27px;
+}
+
+
+.popular-users .bottom {
+	padding-top: 20px;
+	justify-content: flex-end;
+}
+
+.popular-users .bottom button {
+	width: 150px;
+}

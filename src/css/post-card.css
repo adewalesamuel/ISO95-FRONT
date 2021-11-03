@@ -1,0 +1,150 @@
+.post-card {
+	position: relative;
+	border-radius: 2px;
+	overflow: hidden;
+}
+
+.post-card .top {
+	opacity: 0;
+	transform: opacity 100ms ease;
+	position: absolute;
+	padding: 10px !important;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-item: center;
+	z-index: 1;
+	justify-content: space-between;
+}
+
+.post-card .top .user > a {
+	display: flex;
+	align-items: center;
+}
+
+.post-card .top h6 {
+	margin:0;
+	color: white;
+	padding-left: 10px;
+}
+
+
+.post-card .photo {
+	background-color: #CACBCC;
+	position: relative;
+}
+
+.post-card .photo img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.post-card .photo a {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.post-card .overlay {
+	transition: opacity 100ms ease;
+	background-color: black;
+	opacity: 0;
+}
+
+.post-card:hover .overlay {
+	opacity: 0.3;
+}
+
+.post-card:hover .button-group , .post-card:hover .top { 
+	opacity: 1;
+}
+
+.post-card .button-group {
+	transition: opacity 100ms ease;
+	opacity: 0;
+	padding: 0 14px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.post-card .button-group .primary {
+	display: flex;
+	align-items: center;
+}
+
+.post-card .button-group .primary > span {
+	align-items: center;
+	display: flex;
+	margin-left: 20px; 
+}
+
+.post-card .button-group .counts {
+	color: white;
+	padding-left: 5px;
+  font-family: 'Graphick LCG Regular'; 
+  font-size: 1.5rem;
+  vertical-align: center;
+}
+
+.post-card .body {
+	padding: 13px;
+	display: none;
+}
+
+.post-card .body .buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.post-card .body .buttons {
+	padding-bottom: 13px;
+}
+
+.post-card .body  .buttons .primary button {
+	margin-right: 15px;
+}
+
+.post-card .body .likes h3 {
+	margin: 0;
+}
+
+.post-card .body .likes {
+	margin-top: 5px;
+}
+
+
+@media screen and (max-width: 1150px) {
+	.post-card .photo {
+		padding-bottom: var(--natural-padding) !important;
+	}
+}
+
+@media screen and (max-width: 960px) {
+	.post-card .top {
+		display: none;
+	}
+	
+	.post-card .avatar {
+		width: 38px !important;
+		height: 38px !important;
+	}
+
+	.post-card .button-group, .post-card .overlay {
+		display: none;
+	}
+}
+
+@media screen and (max-width: 550px) {
+	.post-card .buttons button img {
+		width: 30px !important;
+		height: 30px !important;
+	}
+}
+

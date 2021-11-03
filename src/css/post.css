@@ -1,0 +1,300 @@
+.post {
+	margin: auto;
+	max-width: 1900px;
+	padding: 50px;
+}
+
+.post .text.secondary {
+	font-family: 'Graphick LCG Regular';
+}
+
+.post .header {
+	padding: 10px;
+}
+
+.post .header, .post .header .user, .post .buttons {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.post .header .user h6 {
+	margin: 0;
+}
+
+.post .header .user .avatar {
+	margin-right: 10px;
+}
+
+.post .header button {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-left: 14px;
+}
+
+.post .header .options button {
+	padding: 15px 10px;
+}
+
+.post .header .options span {
+	display: inline-block;
+	width: 4px;
+	height: 4px;
+	background-color: black;
+	border-radius: 100%;
+	margin-left: 10px;
+}
+
+.post .header .options {
+	position: relative;
+}
+
+.post .header .dropdown {
+	position: absolute;
+	top: 50px;
+	left: -130px;
+	border-radius: 2px;
+	background-color: white;
+	box-shadow: 0 0 3px 0px rgba(10,20,45,0.4);
+	min-width: 215px;
+	z-index: 10;
+}
+
+.post .header .dropdown::before {
+	content: '';
+	transform: rotate(45deg);
+	top: -11px;
+	right: 21px;
+	width: 26px;
+	height: 23px;
+	background-color: white;
+	box-shadow: -1.5px -1px 1px -0.5px rgba(10,20,45,0.4);
+	border-radius: 2px;
+	position: absolute;
+}	
+
+.post .header .dropdown ul {
+	width: 100%;
+	padding: 12px 0;
+}
+
+.post .header .dropdown li {
+	font-size: 1.15rem;
+	padding: 10px 25px;
+}
+
+.post .header .dropdown li:hover {
+	background-color: rgba(0,0,0,0.02);
+}
+
+.post .header .dropdown li.delete {
+	cursor: pointer;
+	color: red;
+}
+
+.post .main .photo {
+	text-align: center;
+	position: relative;
+}
+
+.post .main .photo img {
+	max-height: 100%;
+}
+
+.post .main .buttons {
+	padding: 20px;
+}
+
+.post .buttons .primary button {
+	margin-right: 22px;
+}
+
+.post .likes h3 {
+	margin: 0;
+}
+
+.post .main .likes {
+	margin-top: 5px;
+	padding: 0 20px;
+}
+
+.post .info {
+	margin-top: 20px;
+	padding: 0 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.post .info .text.primary {
+	padding: 7px 0 12px;
+}
+
+.post .caption {
+	padding: 0 30px;
+	max-width: 40%;
+}
+
+.post .info .tag-list {
+	display: flex;
+	justify-content: flex-start;
+	flex-flow: row wrap;
+}
+
+.post .info .tag-list li {
+	padding: 5px 0;
+	padding-right: 17px;
+}
+
+.post .info .tag-list a {
+	font-family: 'Graphick LCG Regular';
+	font-size: 0.90rem;
+	padding: 4px 13px;
+	border-radius: 2px;
+	border: 1px solid #D9D9DB;
+	color: #3D3D3D;
+}
+
+.post .info .comment {
+	min-width: 406px;
+	max-width: 406px;
+}
+
+.post .info .comment textarea {
+	padding: 18px;
+	min-height: 30px;
+}
+
+.post .info .comment .commentList {
+	padding: 14px 0;
+	max-height: 284px;
+	overflow-y: scroll;
+}
+
+.post .info .comment .commentList strong a {
+	font-size: .96rem;	
+	padding-right: 4px;
+}
+
+.post .info .comment .commentList li {
+	padding-bottom: 10px;
+	position: relative;
+}
+
+.post .info .comment .commentList .commentText {
+	padding-left: 48px;
+}
+
+.post .info .comment .commentList .commentImg {
+	position: absolute;
+	top: -0px;
+	left: 0;
+}
+
+.post .info .comment button.text.secondary {
+	width: 100%;
+}
+
+.post .posts {
+	padding-top: 30px;
+	display: inline-block;
+}
+
+.post .posts h1 {
+	margin: 0;
+}
+
+@media screen and (max-width: 1114px) {
+	.post .photo {
+		height: auto !important;
+	}	
+}
+
+@media screen and (max-width: 960px) {
+	.post {
+		padding: 20px 0;
+	}
+
+	.post .header .avatar {
+		width: 38px !important;
+		height: 38px !important;
+	}
+
+	.post .info {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.post .info .camera {
+		display: none;
+	}
+
+	.post .info .comment {
+		width: 100%;
+		max-width: none;
+		padding-top: 20px;
+		min-width: 0;
+	}
+
+	.post .info .caption {
+		padding-left: 0;
+		max-width: none;
+	}
+
+	.post .info .comment .commentList {
+		max-height: none;
+	}
+
+}
+
+@media screen and (max-width: 550px) {
+	.post .main .buttons {
+		padding: 13px 20px;
+	}
+
+	.post .buttons .primary button {
+		margin-right: 15px;
+	}
+
+	.post .header .options button {
+		padding: 15px 10px;
+	}
+
+	.post .header .options span {
+		width: 3px;
+		height: 3px;
+		margin-left: 5px;
+	}
+
+	.post .buttons button img {
+		width: 30px !important;
+		height: 30px !important;
+	}
+
+	.post .info .comment > .text {
+		font-size: 1rem !important;
+	}
+
+	.post .posts .post-list li {
+		padding: 0;
+		width: 100%;
+	}
+
+	.post .posts .post-card .body {
+		display: block;
+	}
+
+	.post .posts .post-card .top {
+		display: flex;
+		opacity: 1;
+		position: relative;
+		z-index: 1;
+		width: 100%;
+	}
+
+	.post .posts .post-card .top h6 {
+		color: inherit;
+	}
+
+}
